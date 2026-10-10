@@ -23,7 +23,6 @@ export function PlantGallery() {
       </div>
       <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-2" aria-live="polite">
         <span className="text-lg font-bold text-[#0d3a24]">{isRTL ? plant.ar : plant.en}</span>
-        <a href={plant.source} target="_blank" rel="noopener noreferrer" className="text-xs text-[#5f786c] underline">{plant.photographer} / Unsplash</a>
       </figcaption>
     </figure>
   </div>;

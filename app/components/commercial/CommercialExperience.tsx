@@ -207,7 +207,7 @@ export function CommercialExperience({
         </section>
         <section className="pb-16">
           <h2 className="text-3xl font-bold">{copy("نباتات مختارة ونخيل بحضور مميز", "Considered plants and statement palms")}</h2>
-          <p className="my-4 max-w-3xl text-sm leading-7 text-[#5f786c]">{copy("١٢ نوع نباتات + ٣ أنواع نخيل. نركز على النباتات الأرضية وشجر الزينة مثل الشيفليرا ارتفاع متر، ونكملها بأنواع تناسب إضاءة المكان. الأحجام النهائية والتوافر يتأكدان قبل التنفيذ.", "12 plant varieties plus 3 palms. Floor plants and ornamental trees such as one-metre schefflera lead the layout, complemented by varieties suited to your light. Final sizes and availability are confirmed before fulfilment.")}</p>
+          <p className="my-4 max-w-3xl text-sm leading-7 text-[#5f786c]">{copy("١٢ نوع نباتات + ٥ أنواع نخيل. نركز على النباتات الأرضية وشجر الزينة مثل الشيفليرا ارتفاع متر، ونكملها بأنواع تناسب إضاءة المكان. الأحجام النهائية والتوافر يتأكدان قبل التنفيذ.", "12 plant varieties plus 5 palms. Floor plants and ornamental trees such as one-metre schefflera lead the layout, complemented by varieties suited to your light. Final sizes and availability are confirmed before fulfilment.")}</p>
           <PlantGallery />
           <p className="mt-4 text-xs text-[#5f786c]">{copy("نحدد الموقع المناسب لكل نوع حسب الضوء والتهوية؛ زيارات العناية لا تغني عن الري والمتابعة المعتادة بين الزيارات.", "Placement is matched to light and airflow. Care visits do not replace routine watering and attention between visits.")}</p>
         </section>

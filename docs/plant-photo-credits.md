@@ -1,6 +1,6 @@
 # Plant gallery photography
 
-Each selectable variety has a distinct image from Unsplash, licensed under the [Unsplash License](https://unsplash.com/license). Gallery photos illustrate the species/variety rather than exact nursery stock or supplied pots. Source links and photographer credits appear below each photo.
+Each selectable variety has a distinct image from Unsplash, licensed under the [Unsplash License](https://unsplash.com/license). Gallery photos illustrate the species/variety rather than exact nursery stock or supplied pots. Source links and photographer credits are retained in this document for reference. Public gallery captions display only the plant name.
 
 - tSWTSzwSz6M: feey, https://unsplash.com/photos/tSWTSzwSz6M (photo-1620803366004-119b57f54cd6)
 - pCRvAi965oQ: feey, https://unsplash.com/photos/pCRvAi965oQ (photo-1747641567564-e318a88cf1b0)
@@ -17,3 +17,6 @@ Each selectable variety has a distinct image from Unsplash, licensed under the [
 - LxWNvGz1Wo8: Marion Mesbah, https://unsplash.com/photos/LxWNvGz1Wo8 (photo-1696339565183-8f17a4b029bb)
 - o8CEg2uuzSM: Natalie Kinnear, https://unsplash.com/photos/o8CEg2uuzSM (photo-1745327656782-30099136da9c)
 - ts4XptfBs3Y: feey, https://unsplash.com/photos/ts4XptfBs3Y (photo-1648806091298-463d085ad8b1)
+
+- WarnrADBVDw: Federica Giusti, https://unsplash.com/photos/WarnrADBVDw (photo-1536008905557-cc918940960c)
+- BxP5Qm4byiI: Rajendra Biswal, https://unsplash.com/photos/BxP5Qm4byiI (photo-1589449104511-b2c8a9e1b7f6)

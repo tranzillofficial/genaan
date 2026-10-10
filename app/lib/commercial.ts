@@ -285,6 +285,8 @@ export const CURATED_PLANTS = [
   { ar: "نخيل أريكا", en: "Areca palm", image: "https://images.unsplash.com/photo-1696339565183-8f17a4b029bb?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/LxWNvGz1Wo8", photographer: "Marion Mesbah" },
   { ar: "نخيل شمدوريا", en: "Chamaedorea palm", image: "https://images.unsplash.com/photo-1745327656782-30099136da9c?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/o8CEg2uuzSM", photographer: "Natalie Kinnear" },
   { ar: "نخيل رابس", en: "Rhapis palm", image: "https://images.unsplash.com/photo-1648806091298-463d085ad8b1?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/ts4XptfBs3Y", photographer: "feey" },
+  { ar: "نخيل ماجستي", en: "Majesty palm", image: "https://images.unsplash.com/photo-1536008905557-cc918940960c?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/WarnrADBVDw", photographer: "Federica Giusti" },
+  { ar: "نخيل ذيل السمكة", en: "Fishtail palm", image: "https://images.unsplash.com/photo-1589449104511-b2c8a9e1b7f6?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/BxP5Qm4byiI", photographer: "Rajendra Biswal" },
 ];
 export const CARE_PLANS = [
   { value: "none", ar: "بدون اشتراك عناية", en: "No care subscription", visits: 0 },
