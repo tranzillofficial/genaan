@@ -1,6 +1,6 @@
 # Genaan commercial packages
 
-The active application and backend live in **mnedaaoff/genaan**. No old backend repository is used. The dedicated Supabase project is `hybybaqjoivioinudefl`.
+The active application and backend live in **tranzillofficial/genaan**. No old backend repository is used. The dedicated Supabase project is `hybybaqjoivioinudefl`.
 
 ## What is deployed
 
@@ -41,13 +41,11 @@ node --env-file=.env.local scripts/verify-commercial-backend.mjs
 
 The integration verification inserts a clearly named QA request and prints its IDs. Delete only that printed test request afterwards using the database owner connection. Do not run it repeatedly against a customer phone number.
 
-## Remaining ownership / hosting steps
+## Production hosting
 
-GitHub transfer is unavailable in the current connector tools. To transfer the repository while preserving history:
-
-1. Open `https://github.com/mnedaaoff/genaan/settings` using the owning account.
-2. Danger Zone → Transfer ownership → new owner `redomlabs`, repository name `genaan`.
-3. Accept the transfer with the receiving account if GitHub asks, and allow the repository in the ChatGPT GitHub connection.
-4. Check the existing Vercel Git integration after transfer and retain the existing domain.
-
-The currently connected Vercel account does not expose the existing Genaan hosting project. Verify the Git-triggered deployment in the owning Vercel account; reconnect that account if direct hosting management is needed. Do not replace an existing unrelated project's backend or domain.
+- Repository: https://github.com/tranzillofficial/genaan (production branch `main`).
+- Vercel project: `genaan` in `tranzillofficial-4512s-projects`.
+- Website: https://www.genaan.shop (`genaan.shop` redirects to `www`).
+- Configure both Supabase variables above in Vercel for production, preview and development before building. New Vercel projects do not inherit the previous project's environment variables.
+- A missing Supabase configuration causes `/journal` prerendering to fail with `Missing Supabase environment variables`. Set the variables and redeploy; do not commit credentials or substitute an unrelated database.
+- `NEXT_PUBLIC_` values are bundled at build time, so deploy again after changing them.
