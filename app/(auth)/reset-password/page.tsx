@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useI18n } from "../../lib/i18n-context";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function ResetPasswordPage() {
+  const { isRTL } = useI18n();
+  const c = (ar: string, en: string) => isRTL ? ar : en;
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -27,11 +30,11 @@ export default function ResetPasswordPage() {
     setError("");
 
     if (password.length < 8) {
-      setError("Password must be at least 8 characters.");
+      setError(c("كلمة المرور لازم تكون ٨ أحرف على الأقل.", "Use at least eight characters for your password."));
       return;
     }
     if (password !== confirm) {
-      setError("Passwords do not match.");
+      setError(c("كلمتا المرور غير متطابقتين.", "The passwords do not match."));
       return;
     }
 
@@ -44,7 +47,7 @@ export default function ResetPasswordPage() {
       setSuccess(true);
       setTimeout(() => router.push("/login"), 2500);
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError(c("تعذر إكمال الخطوة. حاول مرة أخرى.", "We could not complete this step. Please try again."));
     } finally {
       setLoading(false);
     }
@@ -60,7 +63,7 @@ export default function ResetPasswordPage() {
     return s;
   })();
 
-  const strengthLabel = ["", "Weak", "Fair", "Good", "Strong"][strength];
+  const strengthLabel = ["", c("ضعيفة", "Weak"), c("متوسطة", "Fair"), c("جيدة", "Good"), c("قوية", "Strong")][strength];
   const strengthColor = ["", "bg-red-400", "bg-yellow-400", "bg-blue-400", "bg-[#4ecb71]"][strength];
 
   return (
@@ -77,15 +80,15 @@ export default function ResetPasswordPage() {
                   <path d="M20 6L9 17l-5-5"/>
                 </svg>
               </div>
-              <h1 className="text-3xl font-heading font-black text-[#0d3a24] mb-3">Password updated!</h1>
+              <h1 className="text-3xl font-heading font-black text-[#0d3a24] mb-3">{c("تم تحديث كلمة المرور", "Password updated")}</h1>
               <p className="text-[#5f786c] text-sm mb-8">
-                Your password has been reset successfully. Redirecting you to sign in…
+                {c("تم تحديث كلمة المرور. جارٍ العودة لتسجيل الدخول…", "Your password has been updated. Returning to sign in…")}
               </p>
               <Link
                 href="/login"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#17583a] text-white text-sm font-bold rounded-xl hover:bg-[#195b36] transition-colors"
               >
-                Go to sign in
+                {c("تسجيل الدخول", "Sign in")}
               </Link>
             </div>
           ) : (
@@ -98,13 +101,13 @@ export default function ResetPasswordPage() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M19 12H5M12 5l-7 7 7 7"/>
                 </svg>
-                Back
+                {c("رجوع", "Back")}
               </Link>
 
 
-              <h1 className="text-3xl font-heading font-black text-[#0d3a24] mb-2">Set new password</h1>
+              <h1 className="text-3xl font-heading font-black text-[#0d3a24] mb-2">{c("اختار كلمة مرور جديدة", "Choose a new password")}</h1>
               <p className="text-[#5f786c] text-sm mb-8">
-                Choose a strong password for your account.
+                {c("اختار كلمة مرور يصعب تخمينها.", "Choose a password that is hard to guess.")}
               </p>
 
               {error && (
@@ -120,7 +123,7 @@ export default function ResetPasswordPage() {
                 {/* New password */}
                 <div>
                   <label htmlFor="new_password" className="block text-[10px] font-bold tracking-[0.14em] uppercase text-[#5f786c] mb-1.5">
-                    New Password
+                    {c("كلمة المرور الجديدة", "New password")}
                   </label>
                   <div className="relative">
                     <input
@@ -156,7 +159,7 @@ export default function ResetPasswordPage() {
                           />
                         ))}
                       </div>
-                      <p className="text-[11px] text-[#5f786c]">Strength: <span className="font-semibold">{strengthLabel}</span></p>
+                      <p className="text-[11px] text-[#5f786c]">{c("قوة كلمة المرور:", "Password strength:")} <span className="font-semibold">{strengthLabel}</span></p>
                     </div>
                   )}
                 </div>
@@ -164,7 +167,7 @@ export default function ResetPasswordPage() {
                 {/* Confirm password */}
                 <div>
                   <label htmlFor="confirm_password" className="block text-[10px] font-bold tracking-[0.14em] uppercase text-[#5f786c] mb-1.5">
-                    Confirm Password
+                    {c("أكد كلمة المرور", "Confirm password")}
                   </label>
                   <div className="relative">
                     <input
@@ -192,7 +195,7 @@ export default function ResetPasswordPage() {
                     </button>
                   </div>
                   {confirm && confirm !== password && (
-                    <p className="mt-1.5 text-[11px] text-red-500">Passwords do not match</p>
+                    <p className="mt-1.5 text-[11px] text-red-500">{c("كلمتا المرور غير متطابقتين", "The passwords do not match")}</p>
                   )}
                 </div>
 
@@ -207,9 +210,9 @@ export default function ResetPasswordPage() {
                       <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".25"/><path d="M21 12a9 9 0 00-9-9"/>
                       </svg>
-                      Updating password...
+                      {c("جارٍ تحديث كلمة المرور…", "Updating password…")}
                     </>
-                  ) : "Update password"}
+                  ) : c("حدث كلمة المرور", "Update password")}
                 </button>
               </form>
             </>
@@ -230,10 +233,10 @@ export default function ResetPasswordPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#0d3a24]/80 to-transparent flex flex-col justify-start p-12">
           <div>
             <p className="text-white text-2xl font-heading font-bold mb-3 leading-snug">
-              Almost there
+              {c("كلمة مرور لحسابك", "A password for your account")}
             </p>
             <p className="text-[#a8c7b6] text-sm leading-6">
-              Use at least 8 characters with a mix of letters, numbers, and symbols for a strong password.
+              {c("استخدم ٨ أحرف على الأقل، مع حروف وأرقام ورموز.", "Use at least eight characters with a mix of letters, numbers and symbols.")}
             </p>
           </div>
         </div>

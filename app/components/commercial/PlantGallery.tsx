@@ -17,7 +17,7 @@ export function PlantGallery({ plants }: { plants: PlantVariety[] }) {
       <div role="group" aria-label={c("أنواع النباتات", "Plant varieties")} className="flex flex-wrap gap-2">
         {plants.map((p) => <button key={p.id} type="button" aria-pressed={p.id === plant.id} aria-controls="selected-plant-photo" onClick={() => { setSelected(p.id); setFailed(false); }} className={`rounded-full border px-4 py-2.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#17583a] ${p.id === plant.id ? "border-[#17583a] bg-[#17583a] text-white" : "border-[#d4ded7] bg-white text-[#17583a] hover:bg-[#e8f3ec]"}`}>{isRTL ? p.name_ar : p.name_en}</button>)}
       </div>
-      <p className="mt-6 text-xs leading-6 text-[#5f786c]">{c("الصور للتعريف بالنوع وتنسيقه. لون الأوراق والصنف والحجم والأصيص النهائي بيتحددوا معاك حسب المتاح وإضاءة المكان.", "Photos illustrate each plant variety and styling. Leaf colour, cultivar, size and the final pot are agreed with you for availability and light.")}</p>
+      <p className="mt-6 text-xs leading-6 text-[#5f786c]">{c("الصور للتعريف بكل نوع. الحجم والأصيص والتوافر بيتأكدوا معاك في عرض السعر.", "Photos show examples of each plant. We will confirm its size, pot and availability in your quote.")}</p>
     </div>
     <figure id="selected-plant-photo" className="bg-[#e8ede5] p-4 md:p-6">
       <div className="flex h-80 items-center justify-center overflow-hidden rounded-2xl bg-[#f4f5f1] md:h-[420px]">

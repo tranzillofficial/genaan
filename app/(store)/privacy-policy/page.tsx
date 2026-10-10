@@ -10,7 +10,7 @@ export default function PrivacyPage() {
       className="mx-auto max-w-3xl px-5 py-16"
     >
       <h1 className="mb-6 text-4xl font-bold">
-        {c("بيانات طلب عرض السعر", "Your quotation request data")}
+        {c("سياسة الخصوصية", "Privacy policy")}
       </h1>
       <div className="space-y-5 rounded-3xl bg-white p-8 text-sm leading-8 text-[#5f786c]">
         <p>
@@ -22,19 +22,19 @@ export default function PrivacyPage() {
         <p>
           {c(
             "هذه البيانات محفوظة في قاعدة بيانات جنان على Supabase، وقراءة الطلبات متاحة لحسابات إدارة جنان فقط. لا يجمع هذا التدفق بيانات البطاقات أو مدفوعات إلكترونية.",
-            "These records are stored in Genaan's Supabase database. Reading request records is restricted to Genaan administrators. This flow does not collect card details or online payments.",
+            "Your request is stored in Genaan's database, hosted by Supabase. Only authorised Genaan administrators can read these requests. The quote form does not collect card details or payments.",
           )}
         </p>
         <p>
           {c(
             "إرسال الفورم يحفظ الطلب في لوحة الإدارة، ثم يتواصل معك فريق جنان على رقم الهاتف المسجل. إذا استخدمت رابط واتساب للتواصل مباشرة، تكون المحادثة أيضًا لدى واتساب وحساب جنان المستقبِل.",
-            "Submitting the form saves your request in the dashboard. The Genaan team then contacts you on the phone number provided. If you use the WhatsApp link to contact us directly, the conversation is also held by WhatsApp and the receiving Genaan account.",
+            "We save your request so our team can contact you on the number you provide. If you contact us through WhatsApp, your messages are also handled by WhatsApp and our WhatsApp account.",
           )}
         </p>
         <p>
           {c(
             "نموذج الباقة المخصصة في صفحة التواصل يحفظ طلب عرض السعر بنفس طريقة طلب الباقات الجاهزة. دخول الأدمن يستخدم خدمة المصادقة في Supabase، وقد يحفظ المتصفح جلسة تسجيل الدخول وإعداد اللغة.",
-            "The bespoke-package form on the contact page saves a quotation request in the same way as the ready-made packages. Admin login uses Supabase authentication; the browser may store the login session and language preference.",
+            "The custom package form uses the same process as our other quote forms. Account sign-in uses Supabase authentication. Your browser may save your sign-in session and language preference.",
           )}
         </p>
         <p>

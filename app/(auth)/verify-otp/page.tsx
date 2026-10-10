@@ -2,12 +2,15 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useI18n } from "../../lib/i18n-context";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 const OTP_LENGTH = 6;
 
 export default function VerifyOtpPage() {
+  const { isRTL } = useI18n();
+  const c = (ar: string, en: string) => isRTL ? ar : en;
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(""));
@@ -59,7 +62,7 @@ export default function VerifyOtpPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const code = otp.join("");
-    if (code.length < OTP_LENGTH) { setError("Please enter all 6 digits."); return; }
+    if (code.length < OTP_LENGTH) { setError(c("أدخل الأرقام الستة كاملة.", "Please enter all six digits.")); return; }
     setError("");
     setLoading(true);
     try {
@@ -68,7 +71,7 @@ export default function VerifyOtpPage() {
       sessionStorage.setItem("otp_verified", "1");
       router.push("/reset-password");
     } catch {
-      setError("Invalid or expired code. Please try again.");
+      setError(c("الرمز غير صحيح أو انتهت صلاحيته. حاول مرة أخرى.", "The code is incorrect or has expired. Please try again."));
     } finally {
       setLoading(false);
     }
@@ -102,15 +105,14 @@ export default function VerifyOtpPage() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M19 12H5M12 5l-7 7 7 7"/>
             </svg>
-            Back
+            {c("رجوع", "Back")}
           </Link>
 
 
-          <h1 className="text-3xl font-heading font-black text-[#0d3a24] mb-2">Check your email</h1>
+          <h1 className="text-3xl font-heading font-black text-[#0d3a24] mb-2">{c("راجع بريدك الإلكتروني", "Check your email")}</h1>
           <p className="text-[#5f786c] text-sm mb-8">
-            We sent a 6-digit code to{" "}
-            <span className="font-semibold text-[#0d3a24]">{email || "your email"}</span>.
-            Enter it below to continue.
+            {c("أدخل الرمز الخاص بالبريد", "Enter the code for")}{" "}
+            <span className="font-semibold text-[#0d3a24]">{email || c("بريدك الإلكتروني", "your email address")}</span>{" "}{c("للمتابعة.", "to continue.")}
           </p>
 
           {error && (
@@ -126,7 +128,7 @@ export default function VerifyOtpPage() {
             {/* OTP digit boxes */}
             <div>
               <label className="block text-[10px] font-bold tracking-[0.14em] uppercase text-[#5f786c] mb-3">
-                Verification Code
+                {c("رمز التحقق", "Verification code")}
               </label>
               <div className="flex gap-2.5" onPaste={handlePaste}>
                 {otp.map((digit, i) => (
@@ -162,21 +164,21 @@ export default function VerifyOtpPage() {
                   <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".25"/><path d="M21 12a9 9 0 00-9-9"/>
                   </svg>
-                  Verifying...
+                  {c("جارٍ التحقق…", "Checking…")}
                 </>
-              ) : "Verify code"}
+              ) : c("تحقق من الرمز", "Verify code")}
             </button>
           </form>
 
           {/* Resend */}
           <p className="mt-6 text-center text-[#5f786c] text-sm">
-            Didn&apos;t receive the code?{" "}
+            {c("لم تستلم الرمز؟", "Did not receive the code?")}{" "}
             <button
               onClick={handleResend}
               disabled={countdown > 0 || resending}
               className="text-[#17583a] font-semibold hover:underline disabled:text-[#8aab99] disabled:no-underline disabled:cursor-not-allowed transition-colors"
             >
-              {resending ? "Sending..." : countdown > 0 ? `Resend in ${countdown}s` : "Resend code"}
+              {resending ? c("جارٍ الإرسال…", "Sending…") : countdown > 0 ? c(`أعد الإرسال بعد ${countdown} ثانية`, `Resend in ${countdown} seconds`) : c("أعد إرسال الرمز", "Resend code")}
             </button>
           </p>
         </div>
@@ -206,10 +208,10 @@ export default function VerifyOtpPage() {
               ))}
             </div>
             <p className="text-white text-2xl font-heading font-bold mb-3 leading-snug">
-              One step away from access
+              {c("تأكيد البريد الإلكتروني", "Confirm your email")}
             </p>
             <p className="text-[#a8c7b6] text-sm leading-6">
-              The code expires in 10 minutes. Check your spam folder if you don&apos;t see it.
+              {c("راجع مجلد الرسائل غير المرغوب فيها لو لم تجد الرسالة.", "Check your spam folder if you cannot find the email.")}
             </p>
           </div>
         </div>

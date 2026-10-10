@@ -285,15 +285,15 @@ export default function AccountPage() {
     saving: isRTL ? "جاري الحفظ..." : "Saving...",
     saveDetails: isRTL ? "حفظ التغييرات" : "Save Details",
     noOrders: isRTL ? "لا توجد طلبات بعد" : "No orders yet",
-    noOrdersDesc: isRTL ? "عندما تقوم بالشراء، ستظهر طلباتك هنا." : "When you place an order, it will appear here.",
-    browseShop: isRTL ? "تصفح المتجر" : "Browse Shop",
+    noOrdersDesc: isRTL ? "طلباتك السابقة تظهر هنا. لمناقشة باقة جديدة، تواصل مع فريقنا." : "Your previous orders will appear here. To discuss a new package, contact our team.",
+    browseShop: isRTL ? "اكتشف الباقات" : "Explore packages",
     recentOrders: isRTL ? "الطلبات الأخيرة" : "Recent Orders",
     total: isRTL ? "الإجمالي" : "Total",
     edit: isRTL ? "تعديل" : "Edit",
     delete: isRTL ? "حذف" : "Delete",
     addNewAddress: isRTL ? "إضافة عنوان جديد" : "Add New Address",
     noAddresses: isRTL ? "لا توجد عناوين محفوظة" : "No saved addresses",
-    noAddressesDesc: isRTL ? "أضف عنواناً لتسريع عملية الدفع والشحن." : "Add an address for faster checkout.",
+    noAddressesDesc: isRTL ? "احفظ عنوانًا للرجوع إليه لاحقًا." : "Save an address for future reference.",
     streetAddress: isRTL ? "عنوان الشارع *" : "Street Address *",
     city: isRTL ? "المدينة *" : "City *",
     postcode: isRTL ? "الرمز البريدي" : "Postcode",
@@ -651,9 +651,9 @@ export default function AccountPage() {
                         <span className="text-xl">💬</span>
                       </div>
                       <h4 className="font-bold text-[#0d3a24] mb-1">{isRTL ? "لا توجد رسائل مرسلة" : "No sent messages"}</h4>
-                      <p className="text-sm text-[#5f786c]">{isRTL ? "تظهر هنا الرسائل وطلبات التصميم التي ترسلها إلينا." : "Design requests and inquiries you send will appear here."}</p>
+                      <p className="text-sm text-[#5f786c]">{isRTL ? "رسائلك السابقة تظهر هنا. لطلبات الباقات الجديدة، فريقنا هيتواصل معاك على الهاتف." : "Your previous messages appear here. For new package requests, our team will contact you by phone."}</p>
                       <Link href="/contact" className="inline-block mt-4 text-sm font-semibold text-[#17583a] hover:underline">
-                        {isRTL ? "طلب تصميم مساحة جديدة" : "Request Space Design"}
+                        {isRTL ? "طلب تصميم مساحة جديدة" : "Discuss your space"}
                       </Link>
                     </div>
                   ) : (
@@ -714,7 +714,7 @@ export default function AccountPage() {
                         <span className="text-xl">🔔</span>
                       </div>
                       <h4 className="font-bold text-[#0d3a24] mb-1">{isRTL ? "لا توجد إشعارات حالياً" : "No notifications yet"}</h4>
-                      <p className="text-sm text-[#5f786c]">{isRTL ? "ستتلقى إشعارات هنا عندما يرد المسؤولون على استفساراتك." : "You will receive notifications here when admins respond to your requests."}</p>
+                      <p className="text-sm text-[#5f786c]">{isRTL ? "تحديثات الحساب تظهر هنا. لاستفسارات الباقات، فريقنا هيتواصل معاك على الهاتف." : "Account updates appear here. For package enquiries, our team will contact you by phone."}</p>
                     </div>
                   ) : (
                     <div className="space-y-4">

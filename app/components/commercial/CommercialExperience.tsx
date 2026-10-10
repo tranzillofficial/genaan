@@ -48,20 +48,20 @@ export function CommercialExperience({
             <span className="inline-block rounded-full border border-white/25 bg-white/10 px-4 py-2 text-xs tracking-wide">
               {copy(
                 "نباتات لمساحات العمل والضيافة",
-                "GREENERY FOR BUSINESS & HOSPITALITY",
+                "PLANTS FOR BUSINESS SPACES",
               )}
             </span>
             <h1 className="mt-6 max-w-3xl text-5xl font-bold leading-[1.15] tracking-tight md:text-7xl">
-              {copy("مساحة خضراء.", "A greener space.")}
+              {copy("نباتات تناسب نشاطك.", "Plants for your business.")}
               <br />
               <span className="text-[#b4d9c5]">
-                {copy("انطباع يدوم.", "A lasting impression.")}
+                {copy("وتكمل جمال مكانك.", "Chosen for your space.")}
               </span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-8 text-white/85 md:text-lg">
               {copy(
-                "باقات نباتات وأصص متناسقة للعيادات والمطاعم والفنادق والسوبر ماركت. نبدأ بمساحتك، ونختار التفاصيل المناسبة لها.",
-                "Thoughtful plant and pot packages for clinics, restaurants, hotels and supermarkets. Start with your space. Let the greenery bring it to life.",
+                "نباتات وأصص متناسقة للعيادات والمطاعم والفنادق والسوبر ماركت والمكاتب في مصر. نساعدك تختار النباتات المناسبة ونرتبها بما يناسب مكانك.",
+                "Plants and matching pots for clinics, restaurants, hotels, supermarkets and offices in Egypt. We help you choose the right plants and arrange them around your space.",
               )}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -81,12 +81,12 @@ export function CommercialExperience({
             </div>
             <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-xs text-white/80">
               <span>
-                {copy("٥ باقات + باقة على مقاسك", "5 packages + a bespoke option")}
+                {copy("خمس باقات وباقة على مقاسك", "Five packages and a custom option")}
               </span>
               <span>
                 {copy(
                   "نباتات أرضية ونخيل زينة",
-                  "Floor plants and ornamental palms",
+                  "Large plants and palms",
                 )}
               </span>
               <span>
@@ -102,18 +102,18 @@ export function CommercialExperience({
             <div>
               <p className="text-xs font-bold tracking-[.2em] text-[#5f786c]">
                 {copy(
-                  "اختيار مدروس لكل مساحة",
-                  "A CONSIDERED CHOICE FOR EVERY SPACE",
+                  "باقات النباتات",
+                  "OUR PLANT PACKAGES",
                 )}
               </p>
               <h2 className="mt-3 text-3xl font-bold text-[#0d3a24] md:text-5xl">
-                {copy("اختر باقة تناسب نشاطك", "Find your green fit")}
+                {copy("اختر باقة تناسب نشاطك", "Choose a package for your space")}
               </h2>
             </div>
             <p className="max-w-md text-sm leading-7 text-[#5f786c]">
               {copy(
                 "المساحات استرشادية، وليست قياسًا لتغطية الأرضية. العدد والتوزيع النهائي يتحددان حسب الإضاءة والأثاث والحركة داخل المكان.",
-                "Areas are planning guides, not floor coverage. Final placement depends on light, furniture and the way people move through your space.",
+                "Use the suggested area to find a starting point. We will help you choose a layout that suits your lighting, furniture and daily use.",
               )}
             </p>
           </div>
@@ -139,7 +139,7 @@ export function CommercialExperience({
                       </span>
                     )}
                     <span className="absolute bottom-4 start-4 rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#0d3a24]">
-                      {p.is_custom ? copy("حسب مساحتك", "Tailored to your space") : <>{p.area_min}–{p.area_max} {copy("م²", "m²")}</>}
+                      {p.is_custom ? copy("حسب مساحتك", "Tailored to your space") : <>{p.area_min} {copy("إلى", "to")} {p.area_max} {copy("م²", "m²")}</>}
                     </span>
                   </div>
                   <div className="flex flex-1 flex-col p-6">
@@ -154,10 +154,10 @@ export function CommercialExperience({
                         {p.is_custom ? "↗" : p.plant_count}
                       </span>
                       <span className="text-sm text-[#5f786c]">
-                        {p.is_custom ? copy("عدد وتوزيع حسب احتياجك", "Quantities and layout to suit you") : copy("نباتًا مع أصصها", "plants with pots")}
+                        {p.is_custom ? copy("عدد وتوزيع حسب احتياجك", "Plant count and layout agreed with you") : copy("نباتًا مع أصصها", "plants with pots")}
                       </span>
                     </div>
-                    <ul className="space-y-2 border-t border-[#e4ece7] pt-4">
+                    <ul className="space-y-2 pt-4">
                       {(isRTL ? p.includes_ar : p.includes_en).map((s, i) => (
                         <li
                           key={i}
@@ -173,13 +173,13 @@ export function CommercialExperience({
                     <p className="mb-5 mt-4 text-xs leading-6 text-[#5f786c]">
                       {isRTL ? p.care_ar : p.care_en}
                     </p>
-                    <div className="mt-auto border-t border-[#e4ece7] pt-4">
+                    <div className="mt-auto pt-4">
                       <p className="mb-4 text-sm font-semibold text-[#0d3a24]">
                         {p.price !== null
                           ? `${copy("تبدأ من", "From")} ${p.price.toLocaleString(isRTL ? "ar-EG" : "en-EG")} ${copy("جنيه", "EGP")}`
                           : copy(
                               "عرض سعر حسب تفاصيل مساحتك",
-                              "Quoted for your space",
+                              "Price agreed after we discuss your space",
                             )}
                       </p>
                       <button
@@ -196,39 +196,39 @@ export function CommercialExperience({
           {packages.length === 0 && (
             <p className="rounded-2xl border border-dashed p-10 text-center text-[#5f786c]">
               {copy(
-                "لا توجد باقات لهذا النشاط حاليًا. تواصل معنا لتجهيز باقة خاصة.",
-                "No packages for this activity yet. Contact us for a custom proposal.",
+                "الباقات قيد التحديث. تواصل معنا لمناقشة احتياجات مكانك.",
+                "Our packages are being updated. Contact us to discuss your space.",
               )}
             </p>
           )}
           <p className="mt-6 text-xs leading-6 text-[#5f786c]">
             {copy(
               "الصور وتوزيع الأنواع توضيحيان. أسعار الباقات تبدأ من المبالغ المعروضة وتشمل الأصص والتجهيز الأولي. التوصيل وخدمة العناية السنوية منفصلان؛ العدد والحجم والخامات تتأكد في عرض السعر، ولا يتم الدفع من الموقع.",
-              "Images and plant mixes are illustrative. Starting package prices include pots and initial setup. Delivery and annual care are separate; quantities, sizes and materials are confirmed in your quote. No online payment is collected.",
+              "Package prices include pots and initial setup. Delivery and optional annual care cost extra. Photos show examples of the style. Your quote will confirm the plants, sizes, pots and final price.",
             )}
           </p>
         </section>
         <section className="pb-16">
-          <h2 className="text-3xl font-bold">{copy("نباتات مختارة ونخيل بحضور مميز", "Considered plants and statement palms")}</h2>
-          <p className="my-4 max-w-3xl text-sm leading-7 text-[#5f786c]">{plants.length > 0 && <span>{copy(`${plants.filter(p => p.category === "plant").length} نوع نباتات + ${plants.filter(p => p.category === "palm").length} أنواع نخيل. `, `${plants.filter(p => p.category === "plant").length} plant varieties + ${plants.filter(p => p.category === "palm").length} palms. `)}</span>}{copy("نختار النباتات الأرضية وشجر الزينة والنخيل حسب إضاءة المكان وتوزيعه. الأحجام النهائية والتوافر يتأكدان قبل التنفيذ.", "Floor plants, ornamental trees and palms are selected for your light and layout. Final sizes and availability are confirmed before fulfilment.")}</p>
+          <h2 className="text-3xl font-bold">{copy("اكتشف النباتات والنخيل", "Explore our plants and palms")}</h2>
+          <p className="my-4 max-w-3xl text-sm leading-7 text-[#5f786c]">{plants.length > 0 && <span>{copy(`${plants.filter(p => p.category === "plant").length} نوع نباتات و${plants.filter(p => p.category === "palm").length} أنواع نخيل. `, `${plants.filter(p => p.category === "plant").length} plant varieties and ${plants.filter(p => p.category === "palm").length} palm varieties. `)}</span>}{copy("نختار النباتات الأرضية وشجر الزينة والنخيل حسب إضاءة المكان وتوزيعه. الأحجام النهائية والتوافر يتأكدان قبل التنفيذ.", "Choose from large plants, ornamental trees and palms. We will confirm the right sizes and available options when we discuss your space.")}</p>
           <PlantGallery plants={plants} />
-          <p className="mt-4 text-xs text-[#5f786c]">{copy("نحدد الموقع المناسب لكل نوع حسب الضوء والتهوية؛ زيارات العناية لا تغني عن الري والمتابعة المعتادة بين الزيارات.", "Placement is matched to light and airflow. Care visits do not replace routine watering and attention between visits.")}</p>
+          <p className="mt-4 text-xs text-[#5f786c]">{copy("نساعدك تختار المكان المناسب لكل نبات ونوضح لك طريقة العناية به.", "We help you find a suitable spot for each plant and explain how to look after it.")}</p>
         </section>
         <section className="rounded-3xl bg-[#e8f3ec] p-8 md:p-12">
           <p className="text-xs font-bold tracking-widest text-[#5f786c]">
-            {copy("من الفكرة للمكان", "FROM IDEA TO YOUR SPACE")}
+            {copy("من الفكرة للمكان", "HOW IT WORKS")}
           </p>
           <h2 className="mt-3 text-3xl font-bold text-[#0d3a24]">
             {copy(
-              "ثلاث خطوات لبداية خضراء",
-              "Three steps to a greener beginning",
+              "من اختيار الباقة لتجهيز المكان",
+              "From choosing to setting up",
             )}
           </h2>
           <div className="mt-8 grid gap-8 md:grid-cols-3">
             {[
               [
                 "01",
-                copy("اختار نقطة البداية", "Choose your starting point"),
+                copy("اختار نقطة البداية", "Choose your package"),
                 copy(
                   "حدد المدينة والنشاط، واختار باقتك والعناية المناسبة. عدد الغرف يكفي لو مش عارف المساحة.",
                   "Tell us your city and business, choose a package and care plan. Room count is enough if you do not know the area.",
@@ -236,10 +236,10 @@ export function CommercialExperience({
               ],
               [
                 "02",
-                copy("نتكلم عن التفاصيل", "Make it personal"),
+                copy("نتكلم عن التفاصيل", "Talk through the details"),
                 copy(
                   "بعد إرسال الفورم، فريق جنان يتواصل معك لمناقشة المكان والإضاءة وتحديد الأنواع والتوزيع والتكلفة.",
-                  "After you submit the form, Genaan contacts you to discuss your space, lighting, varieties, placement and cost.",
+                  "We will call you to discuss the plants, pots and layout, then prepare your quote.",
                 ),
               ],
               [
@@ -247,7 +247,7 @@ export function CommercialExperience({
                 copy("أكد تجهيز مساحتك", "Confirm your plan"),
                 copy(
                   "نثبت عرض السعر ومواعيد التوصيل وخيارات التركيب والعناية قبل التنفيذ.",
-                  "Agree the quotation, delivery timing, installation and care before fulfilment.",
+                  "Once you approve the quote, we will agree on delivery, setup and any care visits.",
                 ),
               ],
             ].map(([n, title, desc]) => (
@@ -263,13 +263,13 @@ export function CommercialExperience({
           <h2 className="text-3xl font-bold">
             {copy(
               "مساحتك محتاجة حل مختلف؟",
-              "Need something beyond a package?",
+              "Looking for a custom package?",
             )}
           </h2>
           <p className="mx-auto my-4 max-w-xl text-sm leading-7 text-[#5f786c]">
             {copy(
               "أكثر من ٣٠٠ م²، فروع متعددة أو تصميم خاص؟ نبدأ بتفاصيل المكان ونجهز اقتراحًا مناسبًا.",
-              "More than 300 m², several branches or a bespoke layout? Start with your space and we will shape a proposal around it.",
+              "For larger spaces, several branches or a particular look, we can plan a package around your needs. Tell us what you have in mind.",
             )}
           </p>
           <Link
@@ -294,7 +294,7 @@ export function CommercialExperience({
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs text-[#5f786c]">
-                  {copy("طلب عرض سعر", "Quotation request")}
+                  {copy("طلب عرض سعر", "Request a quote")}
                 </p>
                 <h2 id="quote-dialog-title" className="mt-1 text-2xl font-bold">
                   {isRTL ? selected.name_ar : selected.name_en}

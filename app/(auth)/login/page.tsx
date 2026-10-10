@@ -9,7 +9,8 @@ import { useI18n } from "../../lib/i18n-context";
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const { t } = useI18n();
+  const { t, isRTL } = useI18n();
+  const c = (ar: string, en: string) => isRTL ? ar : en;
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -26,7 +27,7 @@ export default function LoginPage() {
       await login(email, password);
       router.push("/");
     } catch (err: any) {
-      setError(err?.message ?? "Invalid credentials. Please try again.");
+      setError(err?.message ?? c("راجع بريدك وكلمة المرور وحاول مرة أخرى.", "Check your email and password, then try again."));
     } finally {
       setLoading(false);
     }
@@ -102,7 +103,7 @@ export default function LoginPage() {
                 href="/forgot-password"
                 className="text-xs text-[#17583a] font-semibold hover:underline"
               >
-                Forgot password?
+                {c("نسيت كلمة المرور؟", "Forgot your password?")}
               </Link>
             </div>
 
@@ -113,7 +114,7 @@ export default function LoginPage() {
               className="w-full py-4 bg-[#17583a] text-white font-bold rounded-xl hover:bg-[#195b36] transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
-                <><svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".25" /><path d="M21 12a9 9 0 00-9-9" /></svg> Signing in...</>
+                <><svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".25" /><path d="M21 12a9 9 0 00-9-9" /></svg> {c("جارٍ تسجيل الدخول…", "Signing in…")}</>
               ) : t.auth.login_btn}
             </button>
           </form>
@@ -132,8 +133,8 @@ export default function LoginPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#0d3a24]/80 to-transparent flex flex-col justify-start p-12">
           <blockquote className="text-white">
-            <p className="text-2xl font-heading font-bold mb-4 leading-snug">"Plants bring life to any space and peace to any mind."</p>
-            <footer className="text-[#a8c7b6] text-sm">The genaan team</footer>
+            <p className="text-2xl font-heading font-bold mb-4 leading-snug">{c("نباتات وأصص تناسب مكانك.", "Plants and pots that suit your space.")}</p>
+            <footer className="text-[#a8c7b6] text-sm">{c("فريق جنان", "The Genaan team")}</footer>
           </blockquote>
         </div>
       </div>

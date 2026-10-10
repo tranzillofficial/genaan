@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "../../lib/i18n-context";
 
 export default function ForgotPasswordPage() {
-  const { t } = useI18n();
+  const { t, isRTL } = useI18n();
+  const c = (ar: string, en: string) => isRTL ? ar : en;
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -26,7 +27,7 @@ export default function ForgotPasswordPage() {
       sessionStorage.setItem("reset_email", email);
       router.push("/verify-otp");
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError(c("تعذر إكمال الخطوة. حاول مرة أخرى.", "We could not complete this step. Please try again."));
     } finally {
       setLoading(false);
     }
@@ -46,12 +47,12 @@ export default function ForgotPasswordPage() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M19 12H5M12 5l-7 7 7 7"/>
             </svg>
-            Back to sign in
+            {c("العودة لتسجيل الدخول", "Back to sign in")}
           </Link>
 
-          <h1 className="text-3xl font-heading font-black text-[#0d3a24] mb-2">Forgot password?</h1>
+          <h1 className="text-3xl font-heading font-black text-[#0d3a24] mb-2">{c("نسيت كلمة المرور؟", "Forgot your password?")}</h1>
           <p className="text-[#5f786c] text-sm mb-8">
-            Enter your email and we&apos;ll send you a verification code to reset your password.
+            {c("أدخل بريد الحساب لبدء استعادة كلمة المرور.", "Enter your account email to start resetting your password.")}
           </p>
 
           {error && (
@@ -95,16 +96,16 @@ export default function ForgotPasswordPage() {
                   <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".25"/><path d="M21 12a9 9 0 00-9-9"/>
                   </svg>
-                  Sending code...
+                  {c("جارٍ الإرسال…", "Sending…")}
                 </>
-              ) : "Send verification code"}
+              ) : c("أرسل رمز التحقق", "Send verification code")}
             </button>
           </form>
 
           <p className="mt-6 text-center text-[#5f786c] text-sm">
-            Remember your password?{" "}
+            {c("افتكرت كلمة المرور؟", "Remember your password?")}{" "}
             <Link href="/login" className="text-[#17583a] font-semibold hover:underline">
-              Sign in
+              {c("تسجيل الدخول", "Sign in")}
             </Link>
           </p>
         </div>
@@ -123,10 +124,10 @@ export default function ForgotPasswordPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#0d3a24]/80 to-transparent flex flex-col justify-start p-12">
           <div>
             <p className="text-white text-2xl font-heading font-bold mb-3 leading-snug">
-              Secure account recovery
+              {c("استعادة الحساب", "Account recovery")}
             </p>
             <p className="text-[#a8c7b6] text-sm leading-6">
-              We&apos;ll send a one-time code to your email. It expires in 10 minutes.
+              {c("استخدم البريد المرتبط بحساب جنان.", "Use the email address linked to your Genaan account.")}
             </p>
           </div>
         </div>

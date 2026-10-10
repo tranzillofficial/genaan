@@ -81,7 +81,7 @@ export function Navbar() {
               href="/contact"
               className={`hover:text-[#17583a] transition-colors ${!scrolled && "hover:text-white"}`}
             >
-              {isRTL ? "جهز مساحتك" : "Your space"}
+              {isRTL ? "تواصل معنا" : "Contact"}
             </Link>
           </nav>
 
@@ -119,7 +119,7 @@ export function Navbar() {
                   ? "hover:bg-[#f4f5f1] text-[#0d3a24]"
                   : "text-white hover:bg-white/10",
               ].join(" ")}
-              aria-label="Toggle Menu"
+              aria-label={isRTL ? "افتح القائمة" : "Open menu"}
             >
               <svg
                 width="22"
@@ -173,6 +173,7 @@ export function Navbar() {
             </span>
             <button
               onClick={() => setMobileMenuOpen(false)}
+              aria-label={isRTL ? "أغلق القائمة" : "Close menu"}
               className="w-8 h-8 flex items-center justify-center rounded-full bg-[#f4f5f1] text-[#0d3a24] hover:bg-[#e4ece7]"
             >
               <svg
@@ -203,7 +204,7 @@ export function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="hover:text-[#17583a] py-2 border-b border-[#f4f5f1] flex items-center justify-between"
             >
-              <span>{isRTL ? "جهز مساحتك" : "Your space"}</span>
+              <span>{isRTL ? "تواصل معنا" : "Contact"}</span>
               <i className="fa-solid fa-chevron-right text-xs text-[#8aab99] rtl:rotate-180" />
             </Link>
           </nav>

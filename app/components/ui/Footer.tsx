@@ -55,8 +55,8 @@ export function Footer(_props: { initialSocials?: FooterSocials }) {
             </Link>
             <p className="max-w-xs text-sm leading-7 text-[#b4d9c5]">
               {c(
-                "نباتات مختارة بعناية، ومساحات تترك انطباعًا. باقات للأعمال والضيافة.",
-                "Considered greenery. Memorable spaces. Plant packages for business and hospitality.",
+                "نباتات وأصص متناسقة لمساحات عمل وضيافة ترحب بكل زائر في مصر.",
+                "Plants and matching pots for welcoming business spaces in Egypt.",
               )}
             </p>
           </div>
@@ -100,16 +100,11 @@ export function Footer(_props: { initialSocials?: FooterSocials }) {
             </div>
           </div>
         </div>
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/15 pt-6 text-xs text-[#b4d9c5]">
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 pt-6 text-xs text-[#b4d9c5]">
           <span>© {new Date().getFullYear()} Genaan</span>
           <div className="flex gap-5">
-            <Link href="/privacy-policy">{c("الخصوصية", "Privacy")}</Link>
-            <span>
-              {c(
-                "نستلم طلبك ونتواصل معك",
-                "Send your request and we will contact you",
-              )}
-            </span>
+            <Link href="/privacy-policy">{c("سياسة الخصوصية", "Privacy policy")}</Link>
+            <Link href="/faq">{c("الأسئلة الشائعة", "Common questions")}</Link>
           </div>
         </div>
       </div>

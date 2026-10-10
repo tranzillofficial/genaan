@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useI18n } from "../lib/i18n-context";
 import { useEffect } from "react";
 
 export default function Error({
@@ -10,6 +11,8 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const { isRTL } = useI18n();
+  const c = (ar: string, en: string) => isRTL ? ar : en;
   useEffect(() => {
     console.error("[Page Error]", error);
   }, [error]);
@@ -25,23 +28,23 @@ export default function Error({
           </svg>
         </div>
         <h2 className="text-2xl font-heading font-bold text-[#0d3a24] mb-3">
-          Something went wrong
+          {c("تعذر تحميل الصفحة", "We could not load this page")}
         </h2>
         <p className="text-[#5f786c] text-sm mb-8">
-          An unexpected error occurred. Please try again or return home.
+          {c("حاول مرة أخرى أو ارجع للصفحة الرئيسية.", "Please try again or return to the home page.")}
         </p>
         <div className="flex gap-3 justify-center">
           <button
             onClick={reset}
             className="px-5 py-2.5 bg-[#17583a] text-white text-sm font-semibold rounded-xl hover:bg-[#195b36] transition-colors"
           >
-            Try Again
+            {c("حاول مرة أخرى", "Try again")}
           </button>
           <Link
             href="/"
             className="px-5 py-2.5 border border-[#d4ded7] text-sm font-semibold text-[#5f786c] rounded-xl hover:border-[#17583a] transition-colors"
           >
-            Go Home
+            {c("الصفحة الرئيسية", "Home")}
           </Link>
         </div>
       </div>

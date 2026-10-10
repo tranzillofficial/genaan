@@ -27,17 +27,17 @@ const fugazOne = Fugaz_One({
 
 export const metadata: Metadata = {
   title: {
-    default: "Genaan — Green Spaces for Business",
+    default: "Genaan | Plants for Business Spaces",
     template: "%s | Genaan",
   },
   description:
-    "Plant and pot packages for clinics, restaurants, hotels and supermarkets. Tailored quotations and orders on WhatsApp.",
-  keywords: ["plants", "indoor plants", "botanical", "smart plants", "Genaan"],
+    "Plants and matching pots for businesses in Egypt. Explore packages for clinics, restaurants, hotels, supermarkets and offices, or request a custom quote.",
+  keywords: ["business plants", "indoor plants Egypt", "plant packages", "Genaan"],
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Genaan — Green Spaces for Business",
+    title: "Genaan | Plants for Business Spaces",
     description: "Plant packages that bring business spaces to life.",
     type: "website",
   },

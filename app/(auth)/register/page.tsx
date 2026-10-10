@@ -9,7 +9,8 @@ import { useI18n } from "../../lib/i18n-context";
 
 export default function RegisterPage() {
   const { register } = useAuth();
-  const { t } = useI18n();
+  const { t, isRTL } = useI18n();
+  const c = (ar: string, en: string) => isRTL ? ar : en;
   const router = useRouter();
 
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", password: "", phone: "" });
@@ -27,7 +28,7 @@ export default function RegisterPage() {
       await register(form.firstName, form.lastName, form.email, form.password, form.phone);
       router.push("/");
     } catch (err: any) {
-      setError(err?.message ?? "Registration failed. Please try again.");
+      setError(err?.message ?? c("تعذر إنشاء الحساب. حاول مرة أخرى.", "We could not create your account. Please try again."));
     } finally {
       setLoading(false);
     }
@@ -48,12 +49,12 @@ export default function RegisterPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#0d3a24]/90 to-[#17583a]/40 flex flex-col justify-start p-12">
 
           <div>
-            <p className="text-white text-3xl font-heading font-bold mb-6 leading-tight">Start your green journey today.</p>
+            <p className="text-white text-3xl font-heading font-bold mb-6 leading-tight">{c("نباتات تناسب نشاطك.", "Plants for your business.")}</p>
             <div className="space-y-3">
               {[
-                "Free delivery on orders over 2,000 EGP",
-                "Expert plant care advice",
-                "30-day happiness guarantee",
+                c("باقات نباتات وأصص متناسقة", "Plants and matching pots"),
+                c("خطة مناسبة لمكانك", "A plan for your space"),
+                c("عناية سنوية اختيارية", "Optional annual plant care"),
               ].map(feat => (
                 <div key={feat} className="flex items-center gap-3 text-[#a8c7b6] text-sm">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ecb71" strokeWidth="2.5"><path d="M20 6L9 17l-5-5" /></svg>
@@ -128,7 +129,7 @@ export default function RegisterPage() {
               className="w-full py-4 bg-[#17583a] text-white font-bold rounded-xl hover:bg-[#195b36] transition-colors disabled:opacity-60 flex items-center justify-center gap-2 mt-2"
             >
               {loading ? (
-                <><svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".25" /><path d="M21 12a9 9 0 00-9-9" /></svg> Creating account...</>
+                <><svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".25" /><path d="M21 12a9 9 0 00-9-9" /></svg> {c("جارٍ إنشاء الحساب…", "Creating your account…")}</>
               ) : t.auth.register_btn}
             </button>
           </form>
