@@ -4,9 +4,11 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 import { resolveIsAdmin } from "../../lib/admin-status";
+import { useI18n } from "../../lib/i18n-context";
 
 function AdminLoginForm() {
   const router = useRouter();
+  const { setLang: setGlobalLang } = useI18n();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +24,7 @@ function AdminLoginForm() {
       setError(
         isRTL
           ? "⛔ هذا الحساب ليس له صلاحية الوصول للوحة التحكم"
-          : "⛔ This account does not have admin access"
+          : "⛔ This account does not have admin access",
       );
     }
   }, [searchParams, isRTL]);
@@ -33,8 +35,15 @@ function AdminLoginForm() {
     setLoading(true);
     try {
       // Step 1: Authenticate with Supabase Auth
-      const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
-      if (authError) throw new Error(isRTL ? "بريد إلكتروني أو كلمة مرور غير صحيحة" : "Invalid email or password");
+      const { data, error: authError } = await supabase.auth.signInWithPassword(
+        { email, password },
+      );
+      if (authError)
+        throw new Error(
+          isRTL
+            ? "بريد إلكتروني أو كلمة مرور غير صحيحة"
+            : "Invalid email or password",
+        );
       if (!data.session) throw new Error("No session returned");
 
       const isAdmin = await resolveIsAdmin(data.session.user);
@@ -44,11 +53,11 @@ function AdminLoginForm() {
         throw new Error(
           isRTL
             ? "هذا الحساب ليس له صلاحية الوصول للوحة التحكم"
-            : "This account does not have admin access"
+            : "This account does not have admin access",
         );
       }
 
-      localStorage.setItem("genaan_lang", lang);
+      setGlobalLang(lang);
       router.replace("/admin");
     } catch (err: any) {
       setError(err.message ?? (isRTL ? "فشل تسجيل الدخول" : "Login failed"));
@@ -63,18 +72,24 @@ function AdminLoginForm() {
       dir={isRTL ? "rtl" : "ltr"}
     >
       {/* Background blobs */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#17583a]/40 blur-3xl pointer-events-none"/>
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-[#2d7a55]/30 blur-3xl pointer-events-none"/>
+      <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#17583a]/40 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-[#2d7a55]/30 blur-3xl pointer-events-none" />
 
       <div className="relative w-full max-w-sm mx-4">
         {/* Card */}
         <div className="bg-white rounded-3xl shadow-2xl p-8">
           {/* Logo */}
           <div className="text-center mb-8">
-            <img src="/favicon.ico" alt="Genaan" className="w-14 h-14 rounded-2xl mx-auto mb-3" />
+            <img
+              src="/favicon.ico"
+              alt="Genaan"
+              className="w-14 h-14 rounded-2xl mx-auto mb-3"
+            />
             <h1 className="text-2xl font-black text-[#0d3a24]">Genaan Admin</h1>
             <p className="text-sm text-[#5f786c] mt-1">
-              {isRTL ? "لوحة تحكم المتجر — للمدراء فقط" : "Store Control Panel — Admins Only"}
+              {isRTL
+                ? "لوحة تحكم المتجر — للمدراء فقط"
+                : "Store Control Panel — Admins Only"}
             </p>
           </div>
 
@@ -94,7 +109,7 @@ function AdminLoginForm() {
                 type="email"
                 required
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@genaan.com"
                 className="w-full px-4 py-3 rounded-xl border border-[#d4ded7] bg-[#f4f5f1] text-sm text-[#0d3a24] placeholder-[#8aab99] focus:outline-none focus:ring-2 focus:ring-[#17583a] focus:border-transparent transition-all"
               />
@@ -107,7 +122,7 @@ function AdminLoginForm() {
                 type="password"
                 required
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 className="w-full px-4 py-3 rounded-xl border border-[#d4ded7] bg-[#f4f5f1] text-sm text-[#0d3a24] placeholder-[#8aab99] focus:outline-none focus:ring-2 focus:ring-[#17583a] focus:border-transparent transition-all"
               />
@@ -119,15 +134,19 @@ function AdminLoginForm() {
               className="w-full py-3.5 rounded-xl bg-[#0d3a24] text-white font-bold text-sm hover:bg-[#17583a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
             >
               {loading
-                ? (isRTL ? "جارٍ التحقق..." : "Verifying…")
-                : (isRTL ? "دخول" : "Sign in")}
+                ? isRTL
+                  ? "جارٍ التحقق..."
+                  : "Verifying…"
+                : isRTL
+                  ? "دخول"
+                  : "Sign in"}
             </button>
           </form>
 
           {/* Lang toggle */}
           <div className="mt-6 text-center">
             <button
-              onClick={() => setLang(l => l === "en" ? "ar" : "en")}
+              onClick={() => setLang((l) => (l === "en" ? "ar" : "en"))}
               className="text-xs text-[#8aab99] hover:text-[#17583a] transition-colors font-medium"
             >
               🌐 {isRTL ? "Switch to English" : "التبديل إلى العربية"}

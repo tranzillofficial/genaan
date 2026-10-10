@@ -27,18 +27,18 @@ const fugazOne = Fugaz_One({
 
 export const metadata: Metadata = {
   title: {
-    default: "Genaan — Smart Plants for the Digital Era",
+    default: "Genaan — Green Spaces for Business",
     template: "%s | Genaan",
   },
   description:
-    "Experience the intersection of organic life and cutting-edge technology. Smart plants for a digital era.",
+    "Plant and pot packages for clinics, restaurants, hotels and supermarkets. Tailored quotations and orders on WhatsApp.",
   keywords: ["plants", "indoor plants", "botanical", "smart plants", "Genaan"],
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Genaan — Smart Plants for the Digital Era",
-    description: "Experience organic life meets cutting-edge technology.",
+    title: "Genaan — Green Spaces for Business",
+    description: "Plant packages that bring business spaces to life.",
     type: "website",
   },
 };

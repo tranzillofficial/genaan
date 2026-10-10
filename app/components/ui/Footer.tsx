@@ -1,263 +1,122 @@
 "use client";
-
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { useI18n } from "../../lib/i18n-context";
+import { normalizeWhatsApp } from "../../lib/commercial";
 export type FooterSocials = {
   instagram: string;
   facebook: string;
   whatsapp: string;
   telegram: string;
 };
-
-const DEFAULT_SOCIALS: FooterSocials = {
-  instagram: "#",
-  facebook: "#",
-  whatsapp: "#",
-  telegram: "#",
-};
-
-interface FooterSection { id: number; name_en: string; name_ar: string; slug: string; }
-
-export function Footer({ initialSocials }: { initialSocials?: FooterSocials }) {
-  const { t, isRTL } = useI18n();
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-  const [socials, setSocials] = useState<FooterSocials>(initialSocials ?? DEFAULT_SOCIALS);
-  const [shopLinks, setShopLinks] = useState([
-    { label: t.footer.plants, href: "/shop?type=plant" },
-    { label: t.footer.pots,   href: "/shop?type=pot"   },
-    { label: t.footer.care,   href: "/care"            },
-  ]);
-
+export function Footer(_props: { initialSocials?: FooterSocials }) {
+  const { isRTL } = useI18n();
+  const c = (ar: string, en: string) => (isRTL ? ar : en);
+  const [contact, setContact] = useState({
+    whatsapp: "",
+    email: "",
+    phone: "",
+  });
   useEffect(() => {
-    if (initialSocials) {
-      setSocials(initialSocials);
-      return;
-    }
-    let cancelled = false;
-    async function loadSettings() {
-      const { supabase } = await import("../../lib/supabase");
-      const { data } = await supabase
-        .from("settings")
-        .select("key, value")
-        .in("key", ["social_instagram", "social_facebook", "contact_whatsapp", "social_telegram", "footer_shop_sections"]);
-
-      if (!cancelled && data) {
-        const map: Record<string, string> = {};
-        data.forEach((row: { key: string; value: string | null }) => {
-          if (row.value) map[row.key] = row.value;
-        });
-        setSocials({
-          instagram: map.social_instagram || "#",
-          facebook: map.social_facebook || "#",
-          whatsapp: map.contact_whatsapp
-            ? `https://wa.me/${map.contact_whatsapp.replace(/\D/g, "")}`
-            : "#",
-          telegram: map.social_telegram || "#",
-        });
-
-        // Load dynamic footer shop sections
-        if (map.footer_shop_sections) {
-          try {
-            const ids: number[] = JSON.parse(map.footer_shop_sections);
-            if (ids.length > 0) {
-              const { data: secs } = await supabase
-                .from("homepage_sections")
-                .select("id, name_en, name_ar, slug")
-                .in("id", ids);
-              if (secs && secs.length > 0) {
-                // Sort by the saved order
-                const ordered = ids.map(id => secs.find((s: FooterSection) => s.id === id)).filter(Boolean) as FooterSection[];
-                setShopLinks(ordered.map((s: FooterSection) => ({
-                  label: isRTL ? s.name_ar : s.name_en,
-                  href: `/shop?section=${s.slug}`,
-                })));
-              }
-            }
-          } catch {}
-        }
-      }
-    }
-    loadSettings();
-    return () => { cancelled = true; };
-  }, [initialSocials, isRTL]);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) { setSubscribed(true); setEmail(""); }
-  };
-
-  const aboutLinks = [
-    { label: t.footer.our_story, href: "/about"   },
-    { label: t.footer.journal,   href: "/journal" },
-  ];
-
-  const supportLinks = [
-    { label: t.footer.contact,  href: "/contact"  },
-    { label: t.footer.faq,      href: "/faq"      },
-    { label: t.footer.shipping, href: "/shipping" },
-  ];
-
-  const socialIcons = [
-    { label: "Instagram", href: socials.instagram, src: "/assets/instagram.png" },
-    { label: "WhatsApp",  href: socials.whatsapp,  src: "/assets/whatsapp.png"  },
-    { label: "Facebook",  href: socials.facebook,  src: "/assets/fb.png"        },
-  ];
-
-  const paymentMethods = [
-    { label: "Visa",       src: "/assets/visa.svg"       },
-    { label: "Mastercard", src: "/assets/mastercard.svg" },
-    { label: "Meeza",      src: "/assets/meeza.svg"      },
-    { label: "VF Cash",    src: "/assets/vfcash.svg"     },
-  ];
-
+    let live = true;
+    fetch("/api/business")
+      .then((r) => r.json())
+      .then((d) => {
+        if (live && d.settings) setContact(d.settings);
+      })
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, []);
+  const whatsapp = normalizeWhatsApp(contact.whatsapp);
   return (
-    <footer dir={isRTL ? "rtl" : "ltr"} className="bg-[#0d3a24] text-white mt-20">
-      <div className="mx-auto max-w-[1200px] px-5 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12">
-
-          {/* Brand column */}
-          <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-5">
+    <footer dir={isRTL ? "rtl" : "ltr"} className="bg-[#0d3a24] text-white">
+      <div className="mx-auto max-w-[1200px] px-5 py-12 md:px-8">
+        <div className="grid gap-8 md:grid-cols-3">
+          <div>
+            <Link href="/" className="mb-4 flex items-center gap-2">
               <Image
                 src="/assets/icon.png"
-                alt="Genaan Logo"
+                alt="Genaan logo"
                 width={36}
                 height={36}
                 className="object-contain brightness-0 invert"
               />
               <span
-                className="text-2xl text-white tracking-tight"
-                style={{ fontFamily: "var(--font-fugaz), sans-serif" }}
+                className="text-2xl"
+                style={{ fontFamily: "var(--font-fugaz),sans-serif" }}
               >
                 genaan
               </span>
             </Link>
-            <p className="text-[#a8c7b6] text-sm leading-7 mb-6">
-              {t.footer.newsletter_subtitle}
+            <p className="max-w-xs text-sm leading-7 text-[#b4d9c5]">
+              {c(
+                "نباتات مختارة بعناية، ومساحات تترك انطباعًا. باقات للأعمال والضيافة.",
+                "Considered greenery. Memorable spaces. Plant packages for business and hospitality.",
+              )}
             </p>
-
-            {/* Social icons */}
-            <div className="flex items-center gap-3">
-              {socialIcons.map(s => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target={s.href !== "#" ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="w-8 h-8 flex items-center justify-center overflow-hidden hover:opacity-80 transition-opacity"
-                >
-                  <Image
-                    src={s.src}
-                    alt={s.label}
-                    width={28}
-                    height={28}
-                    className="object-cover w-full h-full"
-                  />
-                </a>
+          </div>
+          <div>
+            <h3 className="mb-4 font-semibold">
+              {c("اكتشف جنان", "Explore Genaan")}
+            </h3>
+            <div className="space-y-3 text-sm text-[#b4d9c5]">
+              {[
+                ["/packages", c("باقات النباتات", "Plant packages")],
+                ["/care", c("العناية بالنباتات", "Plant care")],
+                ["/about", c("عن جنان", "About Genaan")],
+                ["/journal", c("المدونة", "Journal")],
+              ].map(([href, label]) => (
+                <Link key={href} href={href} className="block hover:text-white">
+                  {label}
+                </Link>
               ))}
             </div>
           </div>
-
-          {/* Shop */}
           <div>
-            <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-[#5f9a7a] mb-5">
-              {t.footer.shop}
-            </h4>
-            <ul className="space-y-3">
-              {shopLinks.map(l => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-[#a8c7b6] text-sm hover:text-white transition-colors">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* About */}
-          <div>
-            <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-[#5f9a7a] mb-5">
-              {t.footer.about}
-            </h4>
-            <ul className="space-y-3">
-              {aboutLinks.map(l => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-[#a8c7b6] text-sm hover:text-white transition-colors">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support */}
-          <div>
-            <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-[#5f9a7a] mb-5">
-              {t.footer.support}
-            </h4>
-            <ul className="space-y-3">
-              {supportLinks.map(l => (
-                <li key={l.href}>
-                  <Link href={l.href} className="text-[#a8c7b6] text-sm hover:text-white transition-colors">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Newsletter / Telegram */}
-          <div>
-            <h4 className="text-xs font-bold tracking-[0.15em] uppercase text-[#5f9a7a] mb-5">
-              {t.footer.newsletter_title}
-            </h4>
-            <p className="text-[#a8c7b6] text-sm leading-6 mb-5">
-              {t.footer.newsletter_subtitle}
-            </p>
-            {socials.telegram !== "#" ? (
-              <a
-                href={socials.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-fit hover:opacity-80 transition-opacity"
-              >
-                <Image
-                  src="/assets/telegram.svg"
-                  alt="Telegram"
-                  width={120}
-                  height={36}
-                  className="w-3/5 h-auto object-contain"
-                />
-              </a>
-            ) : (
-              <div className="text-[#5f9a7a] text-xs italic">
-                {isRTL ? "أضف رابط تيليجرام من الإعدادات" : "Add Telegram link in Settings"}
-              </div>
-            )}
+            <h3 className="mb-4 font-semibold">
+              {c("لنتحدث عن مساحتك", "Let's talk about your space")}
+            </h3>
+            <div className="space-y-3 text-sm text-[#b4d9c5]">
+              {whatsapp && (
+                <a
+                  href={`https://wa.me/${whatsapp}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block hover:text-white"
+                >
+                  {c("تواصل عبر واتساب", "Contact on WhatsApp")} ↗
+                </a>
+              )}
+              {contact.email && (
+                <a className="block" href={`mailto:${contact.email}`}>
+                  {contact.email}
+                </a>
+              )}
+              {contact.phone && (
+                <a className="block" href={`tel:${contact.phone}`} dir="ltr">
+                  {contact.phone}
+                </a>
+              )}
+              <Link className="block" href="/contact">
+                {c("صفحة التواصل", "Contact us")}
+              </Link>
+            </div>
           </div>
         </div>
-
-        {/* Bottom bar */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#5f9a7a]">
-          <p>© {new Date().getFullYear()} genaan. {t.footer.rights}</p>
-
-          {/* Payment icons */}
-          <div dir="ltr" className="flex items-center gap-3">
-            {paymentMethods.map(p => (
-              <div key={p.label} title={p.label}>
-                <Image
-                  src={p.src}
-                  alt={p.label}
-                  width={44}
-                  height={28}
-                  className="object-contain opacity-90 hover:opacity-100 transition-opacity"
-                />
-              </div>
-            ))}
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/15 pt-6 text-xs text-[#b4d9c5]">
+          <span>© {new Date().getFullYear()} Genaan</span>
+          <div className="flex gap-5">
+            <Link href="/privacy-policy">{c("الخصوصية", "Privacy")}</Link>
+            <Link href="/admin/login">{c("دخول الإدارة", "Admin login")}</Link>
+            <span>
+              {c(
+                "الطلبات والتفاصيل عبر واتساب",
+                "Orders & details on WhatsApp",
+              )}
+            </span>
           </div>
         </div>
       </div>

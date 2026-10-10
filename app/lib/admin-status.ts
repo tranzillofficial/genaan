@@ -6,6 +6,12 @@ import type { User as SupabaseUser } from "@supabase/supabase-js";
  * Returns true for full admins AND subadmins.
  */
 export async function resolveIsAdmin(user: SupabaseUser): Promise<boolean> {
+  const { data: commercialMember } = await supabase
+    .from("genaan_admins")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (commercialMember) return true;
   const { data: profile } = await supabase
     .from("profiles")
     .select("is_admin, role")
@@ -25,10 +31,13 @@ export async function resolveIsAdmin(user: SupabaseUser): Promise<boolean> {
     .eq("user_id", user.id);
 
   return (
-    roleRows?.some(row => {
+    roleRows?.some((row) => {
       const role = row.roles as { name?: string } | { name?: string }[] | null;
       const name = Array.isArray(role) ? role[0]?.name : role?.name;
-      return name?.toLowerCase() === "admin" || name?.toLowerCase() === "administrator";
+      return (
+        name?.toLowerCase() === "admin" ||
+        name?.toLowerCase() === "administrator"
+      );
     }) ?? false
   );
 }
@@ -37,8 +46,14 @@ export async function resolveIsAdmin(user: SupabaseUser): Promise<boolean> {
  * Returns the permissions array for a subadmin, or null for full admins (meaning all permissions).
  */
 export async function resolveAdminPermissions(
-  user: SupabaseUser
+  user: SupabaseUser,
 ): Promise<string[] | null> {
+  const { data: commercialMember } = await supabase
+    .from("genaan_admins")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (commercialMember) return null;
   const { data: profile } = await supabase
     .from("profiles")
     .select("is_admin, role, permissions")
