@@ -49,3 +49,15 @@ The integration verification inserts a clearly named QA request and prints its I
 - Configure both Supabase variables above in Vercel for production, preview and development before building. New Vercel projects do not inherit the previous project's environment variables.
 - A missing Supabase configuration causes `/journal` prerendering to fail with `Missing Supabase environment variables`. Set the variables and redeploy; do not commit credentials or substitute an unrelated database.
 - `NEXT_PUBLIC_` values are bundled at build time, so deploy again after changing them.
+
+## Package photography
+
+The five package images are illustrative commercial styling references from Unsplash, served at 1200 × 800 with automatic format and quality 80. Admins can replace them from the package dashboard. The hero image and branding remain unchanged.
+
+| Package | Photographer | Source |
+| --- | --- | --- |
+| Green Corner | Kara Eads | https://unsplash.com/photos/green-plant-in-white-pot-1GAMa5Ot7NA |
+| Welcoming Space | Monaz Nazary | https://unsplash.com/photos/tall-mirror-with-potted-plants-in-a-bright-room-1RTaj2c4O5Y |
+| Living Business | Janelle Ang | https://unsplash.com/photos/a-bright-cafe-interior-with-plants-and-tables-knVcZCTAq0Q |
+| Signature Space | Roman | https://unsplash.com/photos/interior-of-a-cafe-with-plants-and-seating-M5IdzhyYl1k |
+| Green Destination | Farhad Ibrahimzade | https://unsplash.com/photos/a-room-filled-with-lots-of-green-plants-K8OPYyAEtvI |

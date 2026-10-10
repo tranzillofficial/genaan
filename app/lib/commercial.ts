@@ -58,7 +58,7 @@ export const DEFAULT_PACKAGES: Omit<PlantPackage, "id">[] = [
     area_min: 15,
     area_max: 30,
     price: null,
-    image_url: "/assets/hero_image.png",
+    image_url: "https://images.unsplash.com/photo-1545239735-f0b35d2b9683?auto=format&fit=crop&w=1200&h=800&q=80",
     includes_en: [
       "1 floor plant + 4 tabletop plants",
       "5 coordinated pots",
@@ -87,7 +87,7 @@ export const DEFAULT_PACKAGES: Omit<PlantPackage, "id">[] = [
     area_min: 30,
     area_max: 60,
     price: null,
-    image_url: "/assets/hero_image.png",
+    image_url: "https://images.unsplash.com/photo-1769501203620-29d7bba05e78?auto=format&fit=crop&w=1200&h=800&q=80",
     includes_en: [
       "3 floor plants + 7 tabletop plants",
       "10 coordinated pots",
@@ -117,7 +117,7 @@ export const DEFAULT_PACKAGES: Omit<PlantPackage, "id">[] = [
     area_min: 60,
     area_max: 100,
     price: null,
-    image_url: "/assets/hero_image.png",
+    image_url: "https://images.unsplash.com/photo-1773927005455-8efc55a8d512?auto=format&fit=crop&w=1200&h=800&q=80",
     includes_en: [
       "6 floor plants + 12 accent plants",
       "18 coordinated pots",
@@ -147,7 +147,7 @@ export const DEFAULT_PACKAGES: Omit<PlantPackage, "id">[] = [
     area_min: 100,
     area_max: 180,
     price: null,
-    image_url: "/assets/hero_image.png",
+    image_url: "https://images.unsplash.com/photo-1761695939620-a18c88ab83b7?auto=format&fit=crop&w=1200&h=800&q=80",
     includes_en: [
       "10 floor plants + 20 accent plants",
       "30 coordinated pots",
@@ -177,7 +177,7 @@ export const DEFAULT_PACKAGES: Omit<PlantPackage, "id">[] = [
     area_min: 180,
     area_max: 300,
     price: null,
-    image_url: "/assets/hero_image.png",
+    image_url: "https://images.unsplash.com/photo-1700760934202-406926c28458?auto=format&fit=crop&w=1200&h=800&q=80",
     includes_en: [
       "18 floor plants + 32 accent plants",
       "50 coordinated pots",
