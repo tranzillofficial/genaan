@@ -78,12 +78,6 @@ export function Navbar() {
               {isRTL ? "الباقات" : "Packages"}
             </Link>
             <Link
-              href="/journal"
-              className={`hover:text-[#17583a] transition-colors ${!scrolled && "hover:text-white"}`}
-            >
-              {t.nav.journal}
-            </Link>
-            <Link
               href="/contact"
               className={`hover:text-[#17583a] transition-colors ${!scrolled && "hover:text-white"}`}
             >
@@ -202,14 +196,6 @@ export function Navbar() {
               className="hover:text-[#17583a] py-2 border-b border-[#f4f5f1] flex items-center justify-between"
             >
               <span>{isRTL ? "الباقات" : "Packages"}</span>
-              <i className="fa-solid fa-chevron-right text-xs text-[#8aab99] rtl:rotate-180" />
-            </Link>
-            <Link
-              href="/journal"
-              onClick={() => setMobileMenuOpen(false)}
-              className="hover:text-[#17583a] py-2 border-b border-[#f4f5f1] flex items-center justify-between"
-            >
-              <span>{t.nav.journal}</span>
               <i className="fa-solid fa-chevron-right text-xs text-[#8aab99] rtl:rotate-180" />
             </Link>
             <Link

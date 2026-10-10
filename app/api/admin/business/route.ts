@@ -44,13 +44,20 @@ export async function POST(req: NextRequest) {
           { error: "Enter a valid WhatsApp number including country code." },
           { status: 400 },
         );
+      const contactPhone = String(body.phone || "").trim();
+      if (contactPhone && !normalizeWhatsApp(contactPhone))
+        return NextResponse.json({ error: "Enter a valid contact phone number." }, { status: 400 });
+      for (const key of ["care_biannual_price", "care_quarterly_price"]) {
+        if (!/^[0-9]{1,7}([.][0-9]{1,2})?$/.test(String(body[key] ?? "")))
+          return NextResponse.json({ error: "Enter valid annual care prices." }, { status: 400 });
+      }
       ({ error } = await admin.client.from("genaan_business_settings").upsert(
-        ["whatsapp", "email", "phone"].map((key) => ({
+        ["whatsapp", "email", "phone", "care_biannual_price", "care_quarterly_price"].map((key) => ({
           key,
           value:
             key === "whatsapp"
               ? normalizeWhatsApp(phone)
-              : String(body[key] || "")
+              : key === "phone" && contactPhone ? "+" + normalizeWhatsApp(contactPhone) : String(body[key] ?? "")
                   .trim()
                   .slice(0, 200),
         })),
@@ -83,7 +90,7 @@ export async function POST(req: NextRequest) {
         !p.name_en?.trim() ||
         !p.name_ar?.trim() ||
         !Number.isInteger(p.plant_count) ||
-        p.plant_count < 1 ||
+        (p.is_custom ? p.plant_count !== 0 || p.price !== null : p.plant_count < 1) ||
         p.plant_count > 10000 ||
         !Number.isFinite(p.area_min) ||
         !Number.isFinite(p.area_max) ||
@@ -122,6 +129,7 @@ export async function POST(req: NextRequest) {
           .slice(0, n);
       const row = {
         slug: p.slug,
+        is_custom: !!p.is_custom,
         name_en: text(p.name_en, 120),
         name_ar: text(p.name_ar, 120),
         description_en: text(p.description_en),

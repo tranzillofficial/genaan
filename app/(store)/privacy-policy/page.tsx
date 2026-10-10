@@ -15,8 +15,8 @@ export default function PrivacyPage() {
       <div className="space-y-5 rounded-3xl bg-white p-8 text-sm leading-8 text-[#5f786c]">
         <p>
           {c(
-            "عند طلب عرض سعر، يحفظ الموقع اسمك ورقم هاتفك واسم النشاط ونوعه ومساحة المكان والعنوان والملاحظات والباقة المختارة. يستخدم فريق جنان هذه البيانات لمناقشة احتياجك ومتابعة الطلب.",
-            "When you request a quotation, the website stores your name, phone number, business name and type, area, address, notes and selected package. Genaan uses these details to discuss your needs and follow up on the request.",
+            "عند طلب عرض سعر، يحفظ الموقع اسمك ورقم هاتفك واسم النشاط ونوعه والمدينة ومساحة المكان أو عدد الغرف إذا أدخلتهما والعنوان والملاحظات والباقة وخطة العناية المختارة وسعرها المبدئي وقت الطلب. يستخدم فريق جنان هذه البيانات لمناقشة احتياجك ومتابعة الطلب.",
+            "When you request a quotation, the website stores your name, phone number, business name and type, city, optional area or room count, address, notes, selected package and care plan with its starting price at request time. Genaan uses these details to discuss your needs and follow up on the request.",
           )}
         </p>
         <p>
@@ -33,8 +33,8 @@ export default function PrivacyPage() {
         </p>
         <p>
           {c(
-            "نموذج الباقة المخصصة في صفحة التواصل يفتح مسودة واتساب دون حفظ طلب في قاعدة بيانات الموقع. دخول الأدمن يستخدم خدمة المصادقة في Supabase، وقد يحفظ المتصفح جلسة تسجيل الدخول وإعداد اللغة.",
-            "The custom-package form on the contact page opens a WhatsApp draft without recording a website enquiry. Admin login uses Supabase authentication; the browser may store the login session and language preference.",
+            "نموذج الباقة المخصصة في صفحة التواصل يحفظ طلب عرض السعر بنفس طريقة طلب الباقات الجاهزة. دخول الأدمن يستخدم خدمة المصادقة في Supabase، وقد يحفظ المتصفح جلسة تسجيل الدخول وإعداد اللغة.",
+            "The bespoke-package form on the contact page saves a quotation request in the same way as the ready-made packages. Admin login uses Supabase authentication; the browser may store the login session and language preference.",
           )}
         </p>
         <p>

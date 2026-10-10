@@ -7,6 +7,7 @@ export type BusinessType =
   | "other";
 export type PlantPackage = {
   id: string;
+  is_custom: boolean;
   slug: string;
   name_en: string;
   name_ar: string;
@@ -30,6 +31,8 @@ export type BusinessSettings = {
   whatsapp: string;
   email: string;
   phone: string;
+  care_biannual_price: string;
+  care_quarterly_price: string;
 };
 export const BUSINESS_TYPES: { value: BusinessType; en: string; ar: string }[] =
   [
@@ -45,4 +48,14 @@ export function normalizeWhatsApp(value: string): string {
   if (digits.startsWith("00")) digits = digits.slice(2);
   if (/^01[0125]\d{8}$/.test(digits)) digits = "2" + digits;
   return /^[1-9]\d{7,14}$/.test(digits) ? digits : "";
+}
+export const CARE_PLANS = [
+  { value: "none", ar: "بدون اشتراك عناية", en: "No care subscription", visits: 0 },
+  { value: "biannual", ar: "زيارة كل ٦ شهور — زيارتان سنويًا", en: "Every 6 months — 2 annual visits", visits: 2 },
+  { value: "quarterly", ar: "زيارة كل ٣ شهور — ٤ زيارات سنويًا", en: "Every 3 months — 4 annual visits", visits: 4 },
+] as const;
+export function carePrice(settings: BusinessSettings, plan: string): number {
+  if (plan === "none") return 0;
+  const value = Number(plan === "quarterly" ? settings.care_quarterly_price : settings.care_biannual_price);
+  return Number.isFinite(value) && value >= 0 ? value : 0;
 }

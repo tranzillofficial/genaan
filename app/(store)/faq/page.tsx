@@ -4,6 +4,7 @@ export default function FAQPage() {
   const { isRTL } = useI18n();
   const c = (ar: string, en: string) => (isRTL ? ar : en);
   const questions = [
+    [c("لا أعرف المساحة بالمتر، هل أقدر أطلب؟", "Can I request a quote without knowing the area?"), c("نعم. المساحة اختيارية؛ يمكنك إدخال عدد الغرف أو مشاركة صور المكان على واتساب. المدينة والنشاط في خانات منفصلة.", "Yes. Area is optional. Enter the number of rooms or share photos on WhatsApp. City and business type have separate fields.")],
     [
       c(
         "هل مساحة الباقة تغطية فعلية؟",
@@ -41,8 +42,8 @@ export default function FAQPage() {
         "Are delivery, installation and care included?",
       ),
       c(
-        "تتحدد الخدمات وتكلفتها حسب موقعك واحتياج المكان في عرض السعر. الصيانة الشهرية اختيارية، ولا تُعتبر مشمولة تلقائيًا.",
-        "Services and costs depend on your location and needs and are specified in the quote. Monthly maintenance is optional and is not automatically included.",
+        "أسعار بداية الباقات تشمل الأصص والتوزيع والتجهيز الأولي. التوصيل منفصل، والعناية السنوية اختيارية: زيارتان كل ٦ شهور أو ٤ زيارات كل ٣ شهور. تكلفة العناية تتأكد حسب عدد النباتات والمدينة، والري المعتاد مسؤولية العميل.",
+        "Starting package prices include pots, placement and initial setup. Delivery is separate. Optional annual care offers 2 visits every 6 months or 4 visits every 3 months. Care pricing is confirmed for plant count and city; routine watering is your responsibility.",
       ),
     ],
     [

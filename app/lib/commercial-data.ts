@@ -29,17 +29,19 @@ export const getCommercialData = unstable_cache(
           whatsapp: values.whatsapp || "",
           email: values.email || "",
           phone: values.phone || "",
+          care_biannual_price: values.care_biannual_price || "1200",
+          care_quarterly_price: values.care_quarterly_price || "2200",
         } as BusinessSettings,
         available: true,
       };
     } catch {
       return {
         packages: DEFAULT_PACKAGES.map((p) => ({ ...p, id: p.slug })),
-        settings: { whatsapp: "", email: "", phone: "" },
+        settings: { whatsapp: "", email: "", phone: "", care_biannual_price: "1200", care_quarterly_price: "2200" },
         available: false,
       };
     }
   },
-  ["genaan-commercial-v1"],
+  ["genaan-commercial-v2"],
   { revalidate: 60, tags: ["genaan-commercial"] },
 );

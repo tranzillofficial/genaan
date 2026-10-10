@@ -91,8 +91,8 @@ const NAV_ITEMS = [
   {
     href: "/admin/business-settings",
     icon: Icons.settings,
-    en: "Contact & WhatsApp",
-    ar: "التواصل والواتساب",
+    en: "Contact & annual care",
+    ar: "التواصل والعناية السنوية",
     section: "System",
   },
 ];

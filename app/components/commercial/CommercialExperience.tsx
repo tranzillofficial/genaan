@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { QuoteRequestForm } from "./QuoteRequestForm";
 import { useI18n } from "../../lib/i18n-context";
 import {
   BUSINESS_TYPES,
-  normalizeWhatsApp,
+  CURATED_PLANTS,
   type PlantPackage,
   type BusinessSettings,
 } from "../../lib/commercial";
@@ -20,77 +21,16 @@ export function CommercialExperience({
   hero?: boolean;
   available?: boolean;
 }) {
-  const { isRTL, lang } = useI18n();
+  const { isRTL } = useI18n();
   const copy = (ar: string, en: string) => (isRTL ? ar : en);
   const [filter, setFilter] = useState("all");
   const [selected, setSelected] = useState<PlantPackage | null>(null);
-  const [busy, setBusy] = useState(false),
-    [error, setError] = useState("");
-  const [result, setResult] = useState<{
-    reference: string;
-    whatsapp_url: string;
-  } | null>(null);
-  const [form, setForm] = useState({
-    name: "",
-    business_name: "",
-    business_type: "clinic",
-    phone: "",
-    area: "",
-    address: "",
-    notes: "",
-    website: "",
-  });
-  const requestId = useRef("");
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const hasWhatsApp = !!normalizeWhatsApp(settings.whatsapp);
   useEffect(() => {
     if (selected) dialogRef.current?.showModal();
     else dialogRef.current?.close();
   }, [selected]);
-  const choose = (p: PlantPackage) => {
-    setSelected(p);
-    setError("");
-    setResult(null);
-    requestId.current = crypto.randomUUID();
-    setForm((f) => ({
-      ...f,
-      business_type: filter !== "all" ? filter : p.business_types[0] || "other",
-    }));
-  };
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!selected || busy) return;
-    setBusy(true);
-    setError("");
-    try {
-      const response = await fetch("/api/package-enquiries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          package_id: selected.id,
-          request_id: requestId.current,
-          lang,
-        }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
-      setResult(data);
-    } catch (e) {
-      setError(
-        e instanceof Error
-          ? e.message
-          : copy(
-              "تعذر حفظ الطلب. حاول مرة أخرى.",
-              "Could not save your request. Please retry.",
-            ),
-      );
-    } finally {
-      setBusy(false);
-    }
-  }
-  const field =
-    "w-full rounded-xl border border-[#d4ded7] bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-[#17583a]";
+  const choose = (p: PlantPackage) => setSelected(p);
   return (
     <div dir={isRTL ? "rtl" : "ltr"}>
       {hero && (
@@ -140,12 +80,12 @@ export function CommercialExperience({
             </div>
             <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-xs text-white/80">
               <span>
-                {copy("٥ باقات قابلة للتخصيص", "5 adaptable packages")}
+                {copy("٥ باقات + باقة على مقاسك", "5 packages + a bespoke option")}
               </span>
               <span>
                 {copy(
-                  "طبيعي أو صناعي حسب المكان",
-                  "Real or artificial, to suit your space",
+                  "نباتات أرضية ونخيل زينة",
+                  "Floor plants and ornamental palms",
                 )}
               </span>
               <span>
@@ -225,7 +165,7 @@ export function CommercialExperience({
                       </span>
                     )}
                     <span className="absolute bottom-4 start-4 rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#0d3a24]">
-                      {p.area_min}–{p.area_max} {copy("م²", "m²")}
+                      {p.is_custom ? copy("حسب مساحتك", "Tailored to your space") : <>{p.area_min}–{p.area_max} {copy("م²", "m²")}</>}
                     </span>
                   </div>
                   <div className="p-6">
@@ -237,10 +177,10 @@ export function CommercialExperience({
                     </p>
                     <div className="my-5 flex items-baseline gap-2">
                       <span className="text-4xl font-semibold text-[#17583a]">
-                        {p.plant_count}
+                        {p.is_custom ? "↗" : p.plant_count}
                       </span>
                       <span className="text-sm text-[#5f786c]">
-                        {copy("نباتًا مع أصصها", "plants with pots")}
+                        {p.is_custom ? copy("عدد وتوزيع حسب احتياجك", "Quantities and layout to suit you") : copy("نباتًا مع أصصها", "plants with pots")}
                       </span>
                     </div>
                     <ul className="space-y-2 border-t border-[#e4ece7] pt-4">
@@ -295,10 +235,16 @@ export function CommercialExperience({
           )}
           <p className="mt-6 text-xs leading-6 text-[#5f786c]">
             {copy(
-              "الصور توضيحية. أنواع النباتات والخامات والتوصيل والتركيب والصيانة يتم الاتفاق عليها في عرض السعر؛ لا يتم الدفع من الموقع.",
-              "Images are illustrative. Plant varieties, materials, delivery, installation and maintenance are confirmed in your quote. No payment is collected on this website.",
+              "الصور وتوزيع الأنواع توضيحيان. أسعار الباقات تبدأ من المبالغ المعروضة وتشمل الأصص والتجهيز الأولي. التوصيل وخدمة العناية السنوية منفصلان؛ العدد والحجم والخامات تتأكد في عرض السعر، ولا يتم الدفع من الموقع.",
+              "Images and plant mixes are illustrative. Starting package prices include pots and initial setup. Delivery and annual care are separate; quantities, sizes and materials are confirmed in your quote. No online payment is collected.",
             )}
           </p>
+        </section>
+        <section className="pb-16">
+          <h2 className="text-3xl font-bold">{copy("نباتات مختارة ونخيل بحضور مميز", "Considered plants and statement palms")}</h2>
+          <p className="my-4 max-w-3xl text-sm leading-7 text-[#5f786c]">{copy("١٢ نوع نباتات + ٣ أنواع نخيل. نركز على النباتات الأرضية وشجر الزينة مثل الشيفليرا ارتفاع متر، ونكملها بأنواع تناسب إضاءة المكان. الأحجام النهائية والتوافر يتأكدان قبل التنفيذ.", "12 plant varieties plus 3 palms. Floor plants and ornamental trees such as one-metre schefflera lead the layout, complemented by varieties suited to your light. Final sizes and availability are confirmed before fulfilment.")}</p>
+          <div className="flex flex-wrap gap-2">{CURATED_PLANTS.map(p => <span key={p.en} className="rounded-full border border-[#d4ded7] bg-white px-4 py-2 text-sm text-[#17583a]">{isRTL ? p.ar : p.en}</span>)}</div>
+          <p className="mt-4 text-xs text-[#5f786c]">{copy("نحدد الموقع المناسب لكل نوع حسب الضوء والتهوية؛ زيارات العناية لا تغني عن الري والمتابعة المعتادة بين الزيارات.", "Placement is matched to light and airflow. Care visits do not replace routine watering and attention between visits.")}</p>
         </section>
         <section className="rounded-3xl bg-[#e8f3ec] p-8 md:p-12">
           <p className="text-xs font-bold tracking-widest text-[#5f786c]">
@@ -316,8 +262,8 @@ export function CommercialExperience({
                 "01",
                 copy("اختار نقطة البداية", "Choose your starting point"),
                 copy(
-                  "حدد النشاط والمساحة، واختار أقرب باقة لاحتياجك.",
-                  "Tell us your activity and area, then choose the closest package.",
+                  "حدد المدينة والنشاط، واختار باقتك والعناية المناسبة. عدد الغرف يكفي لو مش عارف المساحة.",
+                  "Tell us your city and business, choose a package and care plan. Room count is enough if you do not know the area.",
                 ),
               ],
               [
@@ -394,181 +340,8 @@ export function CommercialExperience({
                 ×
               </button>
             </div>
-            {result ? (
-              <div className="space-y-5">
-                <p className="rounded-xl bg-[#e8f3ec] p-4 text-sm leading-7">
-                  {copy(
-                    "تم حفظ طلب عرض السعر. اضغط الزر لفتح واتساب ثم إرسال الرسالة بنفسك. الطلب لم يتم تأكيده أو دفعه بعد.",
-                    "Your quotation request is saved. Open WhatsApp and send the prepared message. This is not yet a confirmed or paid order.",
-                  )}
-                </p>
-                <p className="break-all text-xs">
-                  {copy("المرجع:", "Reference:")} {result.reference}
-                </p>
-                <a
-                  className="block rounded-xl bg-[#17583a] px-5 py-4 text-center font-bold text-white"
-                  href={result.whatsapp_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {copy(
-                    "فتح واتساب وإرسال التفاصيل",
-                    "Open WhatsApp & send details",
-                  )}
-                </a>
-              </div>
-            ) : !available || !hasWhatsApp ? (
-              <div className="space-y-4">
-                <p className="text-sm leading-7">
-                  {copy(
-                    "طلب الباقات عبر واتساب غير متاح مؤقتًا. تواصل معنا لمناقشة مساحتك.",
-                    "Package enquiries on WhatsApp are temporarily unavailable. Please contact us to discuss your space.",
-                  )}
-                </p>
-                {settings.email && (
-                  <a
-                    href={`mailto:${settings.email}`}
-                    className="block font-semibold underline"
-                  >
-                    {settings.email}
-                  </a>
-                )}
-                <Link
-                  className="inline-block rounded-xl bg-[#17583a] px-5 py-3 text-white"
-                  href="/contact"
-                >
-                  {copy("صفحة التواصل", "Contact us")}
-                </Link>
-              </div>
-            ) : (
-              <form onSubmit={submit} className="space-y-4">
-                {[
-                  ["name", copy("اسمك", "Your name"), "text"],
-                  [
-                    "business_name",
-                    copy("اسم النشاط", "Business name"),
-                    "text",
-                  ],
-                  [
-                    "phone",
-                    copy(
-                      "رقم هاتفك مع كود الدولة",
-                      "Your phone, with country code",
-                    ),
-                    "tel",
-                  ],
-                  [
-                    "area",
-                    copy("مساحة المكان بالمتر المربع", "Space area in m²"),
-                    "number",
-                  ],
-                ].map(([key, label, type]) => (
-                  <label key={key} className="block text-sm">
-                    <span className="mb-1.5 block font-semibold">{label}</span>
-                    <input
-                      required
-                      type={type}
-                      min={type === "number" ? 1 : undefined}
-                      max={type === "number" ? 100000 : undefined}
-                      maxLength={160}
-                      value={form[key as keyof typeof form]}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, [key]: e.target.value }))
-                      }
-                      className={field}
-                    />
-                  </label>
-                ))}
-                <label className="block text-sm">
-                  <span className="mb-1.5 block font-semibold">
-                    {copy("نوع النشاط", "Business type")}
-                  </span>
-                  <select
-                    className={field}
-                    value={form.business_type}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, business_type: e.target.value }))
-                    }
-                  >
-                    {BUSINESS_TYPES.map((t) => (
-                      <option key={t.value} value={t.value}>
-                        {isRTL ? t.ar : t.en}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label className="block text-sm">
-                  <span className="mb-1.5 block font-semibold">
-                    {copy("المدينة والعنوان", "City and address")}
-                  </span>
-                  <input
-                    required
-                    maxLength={500}
-                    className={field}
-                    value={form.address}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, address: e.target.value }))
-                    }
-                  />
-                </label>
-                <label className="block text-sm">
-                  <span className="mb-1.5 block font-semibold">
-                    {copy(
-                      "ملاحظات: الإضاءة، طبيعي أم صناعي، العناية المطلوبة",
-                      "Notes: light, real or artificial, care needs",
-                    )}
-                  </span>
-                  <textarea
-                    maxLength={1500}
-                    rows={3}
-                    className={field}
-                    value={form.notes}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, notes: e.target.value }))
-                    }
-                  />
-                </label>
-                <input
-                  name="website"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  aria-hidden="true"
-                  className="hidden"
-                  value={form.website}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, website: e.target.value }))
-                  }
-                />
-                <p className="text-xs leading-6 text-[#5f786c]">
-                  {copy(
-                    "بإرسال الطلب توافق على استخدام بياناتك للتواصل بشأن عرض السعر. ستظهر التفاصيل في رسالة واتساب التي تختار إرسالها.",
-                    "By requesting a quote, you agree that we may use these details to respond. They will appear in the WhatsApp message you choose to send.",
-                  )}{" "}
-                  <Link className="underline" href="/privacy-policy">
-                    {copy("الخصوصية", "Privacy")}
-                  </Link>
-                </p>
-                {error && (
-                  <p
-                    role="alert"
-                    className="rounded-xl bg-red-50 p-3 text-sm text-red-700"
-                  >
-                    {error}
-                  </p>
-                )}
-                <button
-                  disabled={busy}
-                  className="w-full rounded-xl bg-[#17583a] py-4 text-sm font-bold text-white disabled:opacity-50"
-                >
-                  {busy
-                    ? copy("جارٍ حفظ الطلب…", "Saving request…")
-                    : copy(
-                        "حفظ الطلب والمتابعة لواتساب",
-                        "Save request & continue to WhatsApp",
-                      )}
-                </button>
-              </form>
-            )}
+            <QuoteRequestForm key={selected.id} selected={selected} settings={settings} available={available} initialBusinessType={filter !== "all" ? filter : undefined}/>
+
           </>
         )}
       </dialog>

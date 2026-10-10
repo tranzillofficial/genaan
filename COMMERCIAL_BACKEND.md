@@ -4,12 +4,12 @@ The active application and backend live in **tranzillofficial/genaan**. No old b
 
 ## What is deployed
 
-- Database schema: `database/commercial-backend.sql` (migration `genaan_commercial_packages_backend`).
+- Database schema: `database/commercial-backend.sql`, followed by `database/commercial-care-upgrade.sql` and `database/commercial-packages-pricing.sql`.
 - Legacy profile/role protections: `database/harden-legacy-admin-functions.sql`.
 - Edge Function: `supabase/functions/genaan-enquiry/`, deployed as `genaan-enquiry`, JWT verification enabled.
-- Five editable, published packages with 5/10/18/30/50 plants and indicative areas of 15–30/30–60/60–100/100–180/180–300 m².
+- Five priced packages (5/10/18/30/50 plants) plus a bespoke package without fixed count or price. Starting prices: EGP 4,000 / 8,500 / 15,500 / 25,000 / 41,500; pots and initial setup included, delivery separate. Plant mixes and sizes are indicative and confirmed before fulfilment.
 - Existing `admin@genaan.com` retained. Its existing password is unchanged.
-- Existing contact details are the initial settings; change them at `/admin/business-settings`.
+- Existing contact details are the initial settings; change phone, WhatsApp, email and annual care prices at `/admin/business-settings`.
 
 ## Application environment
 
@@ -22,10 +22,10 @@ No service-role key is needed by the new Next.js commercial routes. The Edge Fun
 
 ## Access and requests
 
-- Public: only published packages and three contact settings.
+- Public: published packages, contact settings and two annual starting care prices. Nursery unit costs are not published.
 - Private: immutable admin membership and customer enquiries. Membership can be provisioned by a database owner through the SQL editor, using the real Auth user UUID. Website clients cannot assign admin membership.
 - Admin endpoints verify the user token with Auth and membership, then use the user's RLS-scoped client.
-- Submissions are validated by the Edge Function and inserted through a service-only, SECURITY INVOKER SQL function. Snapshots preserve package contents and starting price at request time.
+- Submissions are validated by the Edge Function and inserted through a service-only, SECURITY INVOKER SQL function. Snapshots preserve package contents, starting price and annual care price at request time. City and business type are separate. Area, room count and address are optional.
 - Request IDs make retry submission idempotent. Per-phone database locks and a three-per-hour phone limit prevent parallel duplicate spam; a daily global limit caps request volume. This is a basic limit, not a substitute for a future managed CAPTCHA/WAF if abuse occurs.
 - Creating an enquiry prepares a WhatsApp draft, not a sent message, payment, or confirmed order. Staff confirm status manually.
 - Package images use the public `genaan-packages` bucket, restricted admin uploads, 5 MB image limits and immutable random filenames with long cache lifetime.
@@ -61,3 +61,12 @@ The five package images are illustrative commercial styling references from Unsp
 | Living Business | Janelle Ang | https://unsplash.com/photos/a-bright-cafe-interior-with-plants-and-tables-knVcZCTAq0Q |
 | Signature Space | Roman | https://unsplash.com/photos/interior-of-a-cafe-with-plants-and-seating-M5IdzhyYl1k |
 | Green Destination | Farhad Ibrahimzade | https://unsplash.com/photos/a-room-filled-with-lots-of-green-plants-K8OPYyAEtvI |
+
+## Annual care and indicative pricing
+
+- Biannual: 2 visits/year, once every 6 months, from EGP 1,200/year.
+- Quarterly: 4 visits/year, once every 3 months, from EGP 2,200/year.
+- These are editable starting prices; the quotation confirms plant count, city, travel and materials. Routine watering remains the client’s responsibility. Additional materials and replacement plants are quoted separately.
+- Requests store the selected plan and price supplied by the service-only database function, never a client-supplied price. Repeated request IDs return the original snapshot. Selecting care records an enquiry, not a paid subscription or scheduled visit.
+- Pricing method: supplier basket cost plus provisional pots (EGP 200/plant) and setup allowances (EGP 600/1,000/1,600/2,400/4,000), then × 1.30 and rounding upward to EGP 500. Procurement sizes and actual pot/setup costs must be confirmed before a binding quote. No unit plant prices are shown.
+- Custom enquiries use the same saved-request flow. Magazine links are removed; old journal URLs redirect to packages without deleting stored posts.

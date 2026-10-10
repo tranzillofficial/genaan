@@ -8,6 +8,7 @@ import {
 import {
   BUSINESS_TYPES,
   DEFAULT_PACKAGES,
+  CARE_PLANS,
   type PlantPackage,
 } from "../../lib/commercial";
 
@@ -18,13 +19,18 @@ type Enquiry = {
     name_en: string;
     name_ar: string;
     plant_count: number;
+    is_custom?: boolean;
     price: number | null;
   };
   contact_name: string;
   business_name: string;
   business_type: string;
   phone: string;
-  area: number;
+  area: number | null;
+  city: string;
+  rooms: number | null;
+  care_plan: string;
+  care_price: number;
   address: string;
   notes: string;
   status: string;
@@ -47,7 +53,7 @@ export function BusinessAdmin({
   const c = (ar: string, en: string) => (isRTL ? ar : en);
   const [packages, setPackages] = useState<PlantPackage[]>([]),
     [enquiries, setEnquiries] = useState<Enquiry[]>([]),
-    [settings, setSettings] = useState({ whatsapp: "", email: "", phone: "" });
+    [settings, setSettings] = useState({ whatsapp: "", email: "", phone: "", care_biannual_price: "1200", care_quarterly_price: "2200" });
   const [editing, setEditing] = useState<Partial<PlantPackage> | null>(null);
   const [loading, setLoading] = useState(true),
     [saving, setSaving] = useState(false),
@@ -149,7 +155,7 @@ export function BusinessAdmin({
   const filtered = enquiries.filter(
     (e) =>
       (status === "all" || e.status === status) &&
-      `${e.business_name} ${e.contact_name} ${e.phone} ${e.id}`
+      `${e.business_name} ${e.contact_name} ${e.phone} ${e.city} ${e.id}`
         .toLowerCase()
         .includes(query.toLowerCase()),
   );
@@ -162,7 +168,12 @@ export function BusinessAdmin({
         "Business",
         "Contact",
         "Phone",
+        "City",
+        "Business type",
         "Area m2",
+        "Rooms",
+        "Annual care",
+        "Annual starting care price EGP",
         "Address",
         "Status",
       ],
@@ -173,7 +184,12 @@ export function BusinessAdmin({
         e.business_name,
         e.contact_name,
         e.phone,
-        String(e.area),
+        e.city || "",
+        e.business_type,
+        e.area === null ? "" : String(e.area),
+        e.rooms === null ? "" : String(e.rooms),
+        e.care_plan,
+        String(e.care_price),
         e.address,
         e.status,
       ]),
@@ -205,7 +221,7 @@ export function BusinessAdmin({
                 ? c("باقات النباتات", "Plant packages")
                 : mode === "enquiries"
                   ? c("طلبات عروض الأسعار", "Quote requests")
-                  : c("التواصل والواتساب", "Contact & WhatsApp")}
+                  : c("التواصل والعناية السنوية", "Contact & annual care")}
           </h1>
         </div>
         <button
@@ -323,11 +339,17 @@ export function BusinessAdmin({
                 ],
                 ["email", c("البريد الإلكتروني", "Contact email"), "email"],
                 ["phone", c("رقم التواصل", "Contact phone"), "tel"],
+                ["care_biannual_price", c("سعر بداية العناية السنوية — زيارتان (جنيه)", "Annual starting care price — 2 visits (EGP)"), "number"],
+                ["care_quarterly_price", c("سعر بداية العناية السنوية — ٤ زيارات (جنيه)", "Annual starting care price — 4 visits (EGP)"), "number"],
               ].map(([key, label, type]) => (
                 <label className="block text-sm" key={key}>
                   <span className="mb-2 block font-semibold">{label}</span>
                   <input
                     type={type}
+                    required={type === "number"}
+                    min={type === "number" ? 0 : undefined}
+                    max={type === "number" ? 9999999 : undefined}
+                    step={type === "number" ? "0.01" : undefined}
                     value={settings[key as keyof typeof settings] || ""}
                     onChange={(e) =>
                       setSettings((s) => ({ ...s, [key]: e.target.value }))
@@ -338,6 +360,7 @@ export function BusinessAdmin({
                   />
                 </label>
               ))}
+              <p className="text-xs leading-6 text-[#5f786c]">{c("يمكن تغيير رقم التواصل ورقم واتساب بشكل مستقل. أسعار العناية لسنة كاملة، وليست للزيارة؛ تتأكد حسب عدد النباتات والمدينة. الطلبات القديمة تحتفظ بسعرها وقت الاستفسار.", "Contact phone and WhatsApp can be changed independently. Care prices cover a full year, not a single visit; confirm for plant count and city. Existing requests retain their original price snapshot.")}</p>
               <button
                 disabled={saving}
                 className="rounded-xl bg-[#17583a] px-6 py-3 font-semibold text-white disabled:opacity-50"
@@ -465,6 +488,7 @@ export function BusinessAdmin({
                           {label}
                         </span>
                         <input
+                          disabled={!!editing.is_custom && (key === "price" || key === "plant_count")}
                           required={key !== "price"}
                           type={type}
                           step={
@@ -624,6 +648,7 @@ export function BusinessAdmin({
                     {[
                       ["is_active", c("نشر الباقة", "Publish package")],
                       ["is_featured", c("باقة مميزة", "Featured package")],
+                      ["is_custom", c("باقة مخصصة بدون عدد أو سعر ثابت", "Bespoke package with no fixed count or price")],
                     ].map(([key, label]) => (
                       <label key={key}>
                         <input
@@ -633,6 +658,7 @@ export function BusinessAdmin({
                             setEditing((p) => ({
                               ...p,
                               [key]: e.target.checked,
+                              ...(key === "is_custom" ? { plant_count: e.target.checked ? 0 : 5, price: null } : {}),
                             }))
                           }
                         />{" "}
@@ -711,10 +737,12 @@ export function BusinessAdmin({
                         {isRTL
                           ? e.package_snapshot.name_ar
                           : e.package_snapshot.name_en}{" "}
-                        · {e.package_snapshot.plant_count} {c("نبات", "plants")}{" "}
-                        · {e.area} m²
+                        · {e.package_snapshot.is_custom ? c("حسب الاتفاق", "To be agreed") : <>{e.package_snapshot.plant_count} {c("نبات", "plants")}</>}{" "}
+                        {e.area !== null && <> · {e.area} m²</>}
+                        {e.rooms !== null && <> · {e.rooms} {c("غرف / مساحات", "rooms / zones")}</>}
                       </p>
-                      <p className="mt-1 text-sm">{e.address}</p>
+                      <p className="mt-1 text-sm">{e.city} · {BUSINESS_TYPES.find(t => t.value === e.business_type)?.[isRTL ? "ar" : "en"]} {e.address && `· ${e.address}`}</p>
+                      <p className="mt-2 rounded-xl bg-[#e8f3ec] p-3 text-sm">{c("العناية:", "Care:")} {CARE_PLANS.find(p => p.value === e.care_plan)?.[isRTL ? "ar" : "en"] || c("بدون عناية", "No care")}{e.care_plan !== "none" && <> · {c("تبدأ من", "From")} {e.care_price} {c("جنيه سنويًا", "EGP per year")}</>}</p>
                       {e.notes && (
                         <p className="mt-2 text-sm text-[#5f786c]">{e.notes}</p>
                       )}

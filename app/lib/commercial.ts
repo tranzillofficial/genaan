@@ -7,6 +7,7 @@ export type BusinessType =
   | "other";
 export type PlantPackage = {
   id: string;
+  is_custom: boolean;
   slug: string;
   name_en: string;
   name_ar: string;
@@ -30,6 +31,8 @@ export type BusinessSettings = {
   whatsapp: string;
   email: string;
   phone: string;
+  care_biannual_price: string;
+  care_quarterly_price: string;
 };
 export const BUSINESS_TYPES: { value: BusinessType; en: string; ar: string }[] =
   [
@@ -48,151 +51,247 @@ export function normalizeWhatsApp(value: string): string {
 }
 export const DEFAULT_PACKAGES: Omit<PlantPackage, "id">[] = [
   {
-    slug: "green-corner",
-    name_en: "Green Corner",
-    name_ar: "ركن أخضر",
-    description_en:
-      "A considered first touch of greenery for reception desks and small waiting rooms.",
-    description_ar: "لمسة خضراء موزعة بعناية للاستقبال وغرف الانتظار الصغيرة.",
-    plant_count: 5,
-    area_min: 15,
-    area_max: 30,
-    price: null,
-    image_url: "https://images.unsplash.com/photo-1545239735-f0b35d2b9683?auto=format&fit=crop&w=1200&h=800&q=80",
-    includes_en: [
-      "1 floor plant + 4 tabletop plants",
-      "5 coordinated pots",
-      "Placement plan and care guide",
+    "slug": "green-corner",
+    "is_custom": false,
+    "name_ar": "ركن أخضر",
+    "name_en": "Green Corner",
+    "description_ar": "نباتات أرضية ونخيل زينة تمنح نشاطك حضورًا أخضر، مع لمسات نباتية مكملة حسب الإضاءة.",
+    "description_en": "Floor plants and ornamental palms give your business a green presence, with complementary planting matched to the light.",
+    "plant_count": 5,
+    "area_min": 15,
+    "area_max": 30,
+    "price": 4000,
+    "image_url": "https://images.unsplash.com/photo-1545239735-f0b35d2b9683?auto=format&fit=crop&w=1200&h=800&q=80",
+    "includes_ar": [
+      "أريكا واحدة + شيفليرا ارتفاع متر",
+      "زنبق السلام + أجلونيما + سانسيفيريا",
+      "5 أصيصًا متناسقًا + توزيع وتجهيز أولي"
     ],
-    includes_ar: [
-      "نبات أرضي + ٤ نباتات مكتبية",
-      "٥ أصص متناسقة",
-      "خطة توزيع ودليل عناية",
+    "includes_en": [
+      "1 areca palm + 1 metre schefflera",
+      "Peace lily + aglaonema + snake plant",
+      "5 coordinated pots + placement and initial setup"
     ],
-    business_types: ["clinic", "office"],
-    care_en: "Low-maintenance selection; optional monthly care.",
-    care_ar: "اختيارات سهلة العناية؛ صيانة شهرية اختيارية.",
-    is_active: true,
-    is_featured: false,
-    sort_order: 1,
+    "business_types": [
+      "clinic",
+      "restaurant",
+      "hotel",
+      "supermarket",
+      "office",
+      "other"
+    ],
+    "care_ar": "عناية سنوية اختيارية بزيارتين أو أربع زيارات؛ التوصيل منفصل.",
+    "care_en": "Optional annual care with 2 or 4 visits; delivery charged separately.",
+    "is_active": true,
+    "is_featured": false,
+    "sort_order": 1
   },
   {
-    slug: "welcoming-space",
-    name_en: "Welcoming Space",
-    name_ar: "مساحة ترحيب",
-    description_en:
-      "Create a calm arrival experience across a clinic, office or neighbourhood café.",
-    description_ar: "استقبال مريح للعيادات والمكاتب والكافيهات الصغيرة.",
-    plant_count: 10,
-    area_min: 30,
-    area_max: 60,
-    price: null,
-    image_url: "https://images.unsplash.com/photo-1769501203620-29d7bba05e78?auto=format&fit=crop&w=1200&h=800&q=80",
-    includes_en: [
-      "3 floor plants + 7 tabletop plants",
-      "10 coordinated pots",
-      "Reception and seating layout",
+    "slug": "welcoming-space",
+    "is_custom": false,
+    "name_ar": "مساحة ترحيب",
+    "name_en": "Welcoming Space",
+    "description_ar": "نباتات أرضية ونخيل زينة تمنح نشاطك حضورًا أخضر، مع لمسات نباتية مكملة حسب الإضاءة.",
+    "description_en": "Floor plants and ornamental palms give your business a green presence, with complementary planting matched to the light.",
+    "plant_count": 10,
+    "area_min": 30,
+    "area_max": 60,
+    "price": 8500,
+    "image_url": "https://images.unsplash.com/photo-1769501203620-29d7bba05e78?auto=format&fit=crop&w=1200&h=800&q=80",
+    "includes_ar": [
+      "٢ أريكا + شمدوريا + ٢ شيفليرا",
+      "٢ أجلونيما + زنبق السلام + إمبريال + بوتس",
+      "10 أصيصًا متناسقًا + توزيع وتجهيز أولي"
     ],
-    includes_ar: [
-      "٣ نباتات أرضية + ٧ نباتات مكتبية",
-      "١٠ أصص متناسقة",
-      "توزيع للاستقبال ومناطق الجلوس",
+    "includes_en": [
+      "2 areca palms + chamaedorea + 2 scheffleras",
+      "2 aglaonemas + peace lily + imperial + pothos",
+      "10 coordinated pots + placement and initial setup"
     ],
-    business_types: ["clinic", "restaurant", "office"],
-    care_en: "Care schedule tailored to light and opening hours.",
-    care_ar: "جدول عناية مناسب للإضاءة ومواعيد العمل.",
-    is_active: true,
-    is_featured: false,
-    sort_order: 2,
+    "business_types": [
+      "clinic",
+      "restaurant",
+      "hotel",
+      "supermarket",
+      "office",
+      "other"
+    ],
+    "care_ar": "عناية سنوية اختيارية بزيارتين أو أربع زيارات؛ التوصيل منفصل.",
+    "care_en": "Optional annual care with 2 or 4 visits; delivery charged separately.",
+    "is_active": true,
+    "is_featured": false,
+    "sort_order": 2
   },
   {
-    slug: "living-business",
-    name_en: "Living Business",
-    name_ar: "نشاط ينبض بالحياة",
-    description_en:
-      "A balanced mix of statement plants and small accents for busier commercial spaces.",
-    description_ar:
-      "مزيج من النباتات البارزة واللمسات الصغيرة للمساحات التجارية المتوسطة.",
-    plant_count: 18,
-    area_min: 60,
-    area_max: 100,
-    price: null,
-    image_url: "https://images.unsplash.com/photo-1773927005455-8efc55a8d512?auto=format&fit=crop&w=1200&h=800&q=80",
-    includes_en: [
-      "6 floor plants + 12 accent plants",
-      "18 coordinated pots",
-      "Zoning for entrances, corners and seating",
+    "slug": "living-business",
+    "is_custom": false,
+    "name_ar": "نشاط ينبض بالحياة",
+    "name_en": "Living Business",
+    "description_ar": "نباتات أرضية ونخيل زينة تمنح نشاطك حضورًا أخضر، مع لمسات نباتية مكملة حسب الإضاءة.",
+    "description_en": "Floor plants and ornamental palms give your business a green presence, with complementary planting matched to the light.",
+    "plant_count": 18,
+    "area_min": 60,
+    "area_max": 100,
+    "price": 15500,
+    "image_url": "https://images.unsplash.com/photo-1773927005455-8efc55a8d512?auto=format&fit=crop&w=1200&h=800&q=80",
+    "includes_ar": [
+      "٣ أريكا + ٢ شمدوريا + ٣ شيفليرا",
+      "٣ أجلونيما + ٢ زنبق السلام + ٢ إمبريال + رابس + ديفنباخيا + بوتس",
+      "18 أصيصًا متناسقًا + توزيع وتجهيز أولي"
     ],
-    includes_ar: [
-      "٦ نباتات أرضية + ١٢ نباتًا للمسات الديكور",
-      "١٨ أصيصًا متناسقًا",
-      "توزيع للمداخل والأركان والجلوس",
+    "includes_en": [
+      "3 areca palms + 2 chamaedoreas + 3 scheffleras",
+      "3 aglaonemas + 2 peace lilies + 2 imperials + rhapis + dieffenbachia + pothos",
+      "18 coordinated pots + placement and initial setup"
     ],
-    business_types: ["restaurant", "supermarket", "clinic", "office"],
-    care_en: "Optional monthly maintenance quoted separately.",
-    care_ar: "صيانة شهرية اختيارية بعرض سعر منفصل.",
-    is_active: true,
-    is_featured: true,
-    sort_order: 3,
+    "business_types": [
+      "clinic",
+      "restaurant",
+      "hotel",
+      "supermarket",
+      "office",
+      "other"
+    ],
+    "care_ar": "عناية سنوية اختيارية بزيارتين أو أربع زيارات؛ التوصيل منفصل.",
+    "care_en": "Optional annual care with 2 or 4 visits; delivery charged separately.",
+    "is_active": true,
+    "is_featured": true,
+    "sort_order": 3
   },
   {
-    slug: "signature-space",
-    name_en: "Signature Space",
-    name_ar: "مساحة مميزة",
-    description_en:
-      "A cohesive green identity for a restaurant, larger store or boutique hotel lobby.",
-    description_ar:
-      "هوية خضراء متكاملة للمطاعم والمحلات الكبيرة واستقبال الفنادق الصغيرة.",
-    plant_count: 30,
-    area_min: 100,
-    area_max: 180,
-    price: null,
-    image_url: "https://images.unsplash.com/photo-1761695939620-a18c88ab83b7?auto=format&fit=crop&w=1200&h=800&q=80",
-    includes_en: [
-      "10 floor plants + 20 accent plants",
-      "30 coordinated pots",
-      "Layout proposal for multiple zones",
+    "slug": "signature-space",
+    "is_custom": false,
+    "name_ar": "مساحة مميزة",
+    "name_en": "Signature Space",
+    "description_ar": "نباتات أرضية ونخيل زينة تمنح نشاطك حضورًا أخضر، مع لمسات نباتية مكملة حسب الإضاءة.",
+    "description_en": "Floor plants and ornamental palms give your business a green presence, with complementary planting matched to the light.",
+    "plant_count": 30,
+    "area_min": 100,
+    "area_max": 180,
+    "price": 25000,
+    "image_url": "https://images.unsplash.com/photo-1761695939620-a18c88ab83b7?auto=format&fit=crop&w=1200&h=800&q=80",
+    "includes_ar": [
+      "٥ أريكا + ٣ شمدوريا + ٥ شيفليرا",
+      "٥ أجلونيما + ٤ زنبق السلام + ٣ إمبريال + ٢ رابس + ٢ ديفنباخيا + بوتس",
+      "30 أصيصًا متناسقًا + توزيع وتجهيز أولي"
     ],
-    includes_ar: [
-      "١٠ نباتات أرضية + ٢٠ نباتًا للديكور",
-      "٣٠ أصيصًا متناسقًا",
-      "اقتراح توزيع لعدة مناطق",
+    "includes_en": [
+      "5 areca palms + 3 chamaedoreas + 5 scheffleras",
+      "5 aglaonemas + 4 peace lilies + 3 imperials + 2 rhapis + 2 dieffenbachias + pothos",
+      "30 coordinated pots + placement and initial setup"
     ],
-    business_types: ["restaurant", "hotel", "supermarket", "office"],
-    care_en: "Maintenance and replacement options available in the quote.",
-    care_ar: "خيارات الصيانة والاستبدال تُحدد في عرض السعر.",
-    is_active: true,
-    is_featured: false,
-    sort_order: 4,
+    "business_types": [
+      "clinic",
+      "restaurant",
+      "hotel",
+      "supermarket",
+      "office",
+      "other"
+    ],
+    "care_ar": "عناية سنوية اختيارية بزيارتين أو أربع زيارات؛ التوصيل منفصل.",
+    "care_en": "Optional annual care with 2 or 4 visits; delivery charged separately.",
+    "is_active": true,
+    "is_featured": false,
+    "sort_order": 4
   },
   {
-    slug: "green-destination",
-    name_en: "Green Destination",
-    name_ar: "وجهة خضراء",
-    description_en:
-      "A larger planting concept for hotel common areas and expansive commercial floors.",
-    description_ar:
-      "تصور نباتي للمناطق المشتركة بالفنادق والمساحات التجارية الواسعة.",
-    plant_count: 50,
-    area_min: 180,
-    area_max: 300,
-    price: null,
-    image_url: "https://images.unsplash.com/photo-1700760934202-406926c28458?auto=format&fit=crop&w=1200&h=800&q=80",
-    includes_en: [
-      "18 floor plants + 32 accent plants",
-      "50 coordinated pots",
-      "Multi-zone planting and care proposal",
+    "slug": "green-destination",
+    "is_custom": false,
+    "name_ar": "وجهة خضراء",
+    "name_en": "Green Destination",
+    "description_ar": "نباتات أرضية ونخيل زينة تمنح نشاطك حضورًا أخضر، مع لمسات نباتية مكملة حسب الإضاءة.",
+    "description_en": "Floor plants and ornamental palms give your business a green presence, with complementary planting matched to the light.",
+    "plant_count": 50,
+    "area_min": 180,
+    "area_max": 300,
+    "price": 41500,
+    "image_url": "https://images.unsplash.com/photo-1700760934202-406926c28458?auto=format&fit=crop&w=1200&h=800&q=80",
+    "includes_ar": [
+      "٨ أريكا + ٥ شمدوريا + ٨ شيفليرا",
+      "٨ أجلونيما + ٧ زنبق السلام + ٥ إمبريال + ٤ رابس + ٣ ديفنباخيا + ٢ بوتس",
+      "50 أصيصًا متناسقًا + توزيع وتجهيز أولي"
     ],
-    includes_ar: [
-      "١٨ نباتًا أرضيًا + ٣٢ نباتًا للديكور",
-      "٥٠ أصيصًا متناسقًا",
-      "اقتراح توزيع وعناية لعدة مناطق",
+    "includes_en": [
+      "8 areca palms + 5 chamaedoreas + 8 scheffleras",
+      "8 aglaonemas + 7 peace lilies + 5 imperials + 4 rhapis + 3 dieffenbachias + 2 pothos",
+      "50 coordinated pots + placement and initial setup"
     ],
-    business_types: ["hotel", "supermarket", "restaurant", "office"],
-    care_en: "Scheduled care can be included in a separate service agreement.",
-    care_ar: "يمكن إضافة زيارات عناية باتفاق خدمة منفصل.",
-    is_active: true,
-    is_featured: false,
-    sort_order: 5,
+    "business_types": [
+      "clinic",
+      "restaurant",
+      "hotel",
+      "supermarket",
+      "office",
+      "other"
+    ],
+    "care_ar": "عناية سنوية اختيارية بزيارتين أو أربع زيارات؛ التوصيل منفصل.",
+    "care_en": "Optional annual care with 2 or 4 visits; delivery charged separately.",
+    "is_active": true,
+    "is_featured": false,
+    "sort_order": 5
   },
+  {
+    "slug": "custom-package",
+    "is_custom": true,
+    "name_ar": "باقة على مقاسك",
+    "name_en": "Your Bespoke Package",
+    "description_ar": "للفروع المتعددة والمساحات المختلفة: نحدد النباتات والنخيل والعدد والتوزيع معك قبل عرض السعر.",
+    "description_en": "For multiple branches or a unique space: discuss plant varieties, palms, quantities and layout before a quotation.",
+    "plant_count": 0,
+    "area_min": 1,
+    "area_max": 100000,
+    "price": null,
+    "image_url": "/assets/hero_image.png",
+    "includes_ar": [
+      "نباتات ونخيل حسب المكان والإضاءة",
+      "عدد وأصص وتوزيع يتم الاتفاق عليهم",
+      "عرض سعر مخصص؛ التوصيل والعناية منفصلان"
+    ],
+    "includes_en": [
+      "Plants and palms tailored to your space and light",
+      "Agree quantities, pots and placement together",
+      "Bespoke quote; delivery and care charged separately"
+    ],
+    "business_types": [
+      "clinic",
+      "restaurant",
+      "hotel",
+      "supermarket",
+      "office",
+      "other"
+    ],
+    "care_ar": "يمكن إضافة خطة عناية سنوية عند طلب عرض السعر.",
+    "care_en": "Add an annual care plan when requesting your quotation.",
+    "is_active": true,
+    "is_featured": false,
+    "sort_order": 6
+  }
 ];
+
+export const CURATED_PLANTS = [
+  { ar: "أجلونيما", en: "Aglaonema" },
+  { ar: "شيفليرا ارتفاع متر", en: "1 metre Schefflera" },
+  { ar: "كلاسيا", en: "Clusia" },
+  { ar: "ديفنباخيا", en: "Dieffenbachia" },
+  { ar: "زنبق السلام", en: "Peace lily" },
+  { ar: "فوجير", en: "Fern" },
+  { ar: "إمبريال", en: "Imperial" },
+  { ar: "ببروميا خضراء", en: "Green Peperomia" },
+  { ar: "سانسيفيريا (تعبان)", en: "Snake plant" },
+  { ar: "ألوكاسيا", en: "Alocasia" },
+  { ar: "سنجونيوم", en: "Syngonium" },
+  { ar: "بوتس إنجوي معلّق", en: "Hanging N'Joy Pothos" },
+  { ar: "نخيل أريكا", en: "Areca palm" },
+  { ar: "نخيل شمدوريا", en: "Chamaedorea palm" },
+  { ar: "نخيل رابس", en: "Rhapis palm" },
+];
+export const CARE_PLANS = [
+  { value: "none", ar: "بدون اشتراك عناية", en: "No care subscription", visits: 0 },
+  { value: "biannual", ar: "زيارة كل ٦ شهور — زيارتان سنويًا", en: "Every 6 months — 2 annual visits", visits: 2 },
+  { value: "quarterly", ar: "زيارة كل ٣ شهور — ٤ زيارات سنويًا", en: "Every 3 months — 4 annual visits", visits: 4 },
+] as const;
+export function carePrice(settings: BusinessSettings, plan: string): number {
+  if (plan === "none") return 0;
+  const value = Number(plan === "quarterly" ? settings.care_quarterly_price : settings.care_biannual_price);
+  return Number.isFinite(value) && value >= 0 ? value : 0;
+}

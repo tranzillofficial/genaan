@@ -67,7 +67,6 @@ export function Footer(_props: { initialSocials?: FooterSocials }) {
                 ["/packages", c("باقات النباتات", "Plant packages")],
                 ["/care", c("العناية بالنباتات", "Plant care")],
                 ["/about", c("عن جنان", "About Genaan")],
-                ["/journal", c("المدونة", "Journal")],
               ].map(([href, label]) => (
                 <Link key={href} href={href} className="block hover:text-white">
                   {label}
