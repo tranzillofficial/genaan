@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { PlantGallery } from "./PlantGallery";
 import { QuoteRequestForm } from "./QuoteRequestForm";
 import { useI18n } from "../../lib/i18n-context";
 import {
-  BUSINESS_TYPES,
-  CURATED_PLANTS,
   type PlantPackage,
   type BusinessSettings,
 } from "../../lib/commercial";
@@ -23,7 +22,6 @@ export function CommercialExperience({
 }) {
   const { isRTL } = useI18n();
   const copy = (ar: string, en: string) => (isRTL ? ar : en);
-  const [filter, setFilter] = useState("all");
   const [selected, setSelected] = useState<PlantPackage | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -89,7 +87,7 @@ export function CommercialExperience({
                 )}
               </span>
               <span>
-                {copy("التفاصيل عبر واتساب", "Details confirmed on WhatsApp")}
+                {copy("نستلم طلبك ونتواصل معك", "Send your request and we will contact you")}
               </span>
             </div>
           </div>
@@ -116,40 +114,13 @@ export function CommercialExperience({
               )}
             </p>
           </div>
-          <div
-            className="my-8 flex flex-wrap gap-2"
-            role="group"
-            aria-label={copy("نوع النشاط", "Business type")}
-          >
-            {[
-              { value: "all", ar: "كل الأنشطة", en: "All spaces" },
-              ...BUSINESS_TYPES.filter((t) => t.value !== "other"),
-            ].map((t) => (
-              <button
-                key={t.value}
-                onClick={() => setFilter(t.value)}
-                aria-pressed={filter === t.value}
-                className={`rounded-full border px-5 py-2.5 text-sm transition-colors ${filter === t.value ? "border-[#0d3a24] bg-[#0d3a24] text-white" : "border-[#d4ded7] bg-white text-[#5f786c] hover:border-[#17583a]"}`}
-              >
-                {isRTL ? t.ar : t.en}
-              </button>
-            ))}
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {packages
-              .filter(
-                (p) =>
-                  filter === "all" ||
-                  p.business_types.includes(
-                    filter as (typeof p.business_types)[number],
-                  ),
-              )
-              .map((p, index) => (
+          <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {packages.map((p, index) => (
                 <article
                   key={p.id}
-                  className={`group overflow-hidden rounded-3xl border bg-white ${p.is_featured ? "border-[#17583a] shadow-lg" : "border-[#e4ece7]"}`}
+                  className={`group flex flex-col overflow-hidden rounded-3xl border bg-white ${p.is_featured ? "border-[#17583a] shadow-lg" : "border-[#e4ece7]"}`}
                 >
-                  <div className="relative h-48 overflow-hidden bg-[#e8f3ec]">
+                  <div className="relative h-48 shrink-0 overflow-hidden bg-[#e8f3ec]">
                     <img
                       src={p.image_url || "/assets/hero_image.png"}
                       alt={isRTL ? p.name_ar : p.name_en}
@@ -168,7 +139,7 @@ export function CommercialExperience({
                       {p.is_custom ? copy("حسب مساحتك", "Tailored to your space") : <>{p.area_min}–{p.area_max} {copy("م²", "m²")}</>}
                     </span>
                   </div>
-                  <div className="p-6">
+                  <div className="flex flex-1 flex-col p-6">
                     <h3 className="text-2xl font-bold text-[#0d3a24]">
                       {isRTL ? p.name_ar : p.name_en}
                     </h3>
@@ -196,10 +167,10 @@ export function CommercialExperience({
                         </li>
                       ))}
                     </ul>
-                    <p className="mt-4 text-xs leading-6 text-[#5f786c]">
+                    <p className="mb-5 mt-4 text-xs leading-6 text-[#5f786c]">
                       {isRTL ? p.care_ar : p.care_en}
                     </p>
-                    <div className="mt-5 border-t border-[#e4ece7] pt-4">
+                    <div className="mt-auto border-t border-[#e4ece7] pt-4">
                       <p className="mb-4 text-sm font-semibold text-[#0d3a24]">
                         {p.price !== null
                           ? `${copy("تبدأ من", "From")} ${p.price.toLocaleString(isRTL ? "ar-EG" : "en-EG")} ${copy("جنيه", "EGP")}`
@@ -219,13 +190,7 @@ export function CommercialExperience({
                 </article>
               ))}
           </div>
-          {packages.filter(
-            (p) =>
-              filter === "all" ||
-              p.business_types.includes(
-                filter as (typeof p.business_types)[number],
-              ),
-          ).length === 0 && (
+          {packages.length === 0 && (
             <p className="rounded-2xl border border-dashed p-10 text-center text-[#5f786c]">
               {copy(
                 "لا توجد باقات لهذا النشاط حاليًا. تواصل معنا لتجهيز باقة خاصة.",
@@ -243,7 +208,7 @@ export function CommercialExperience({
         <section className="pb-16">
           <h2 className="text-3xl font-bold">{copy("نباتات مختارة ونخيل بحضور مميز", "Considered plants and statement palms")}</h2>
           <p className="my-4 max-w-3xl text-sm leading-7 text-[#5f786c]">{copy("١٢ نوع نباتات + ٣ أنواع نخيل. نركز على النباتات الأرضية وشجر الزينة مثل الشيفليرا ارتفاع متر، ونكملها بأنواع تناسب إضاءة المكان. الأحجام النهائية والتوافر يتأكدان قبل التنفيذ.", "12 plant varieties plus 3 palms. Floor plants and ornamental trees such as one-metre schefflera lead the layout, complemented by varieties suited to your light. Final sizes and availability are confirmed before fulfilment.")}</p>
-          <div className="flex flex-wrap gap-2">{CURATED_PLANTS.map(p => <span key={p.en} className="rounded-full border border-[#d4ded7] bg-white px-4 py-2 text-sm text-[#17583a]">{isRTL ? p.ar : p.en}</span>)}</div>
+          <PlantGallery />
           <p className="mt-4 text-xs text-[#5f786c]">{copy("نحدد الموقع المناسب لكل نوع حسب الضوء والتهوية؛ زيارات العناية لا تغني عن الري والمتابعة المعتادة بين الزيارات.", "Placement is matched to light and airflow. Care visits do not replace routine watering and attention between visits.")}</p>
         </section>
         <section className="rounded-3xl bg-[#e8f3ec] p-8 md:p-12">
@@ -270,8 +235,8 @@ export function CommercialExperience({
                 "02",
                 copy("نتكلم عن التفاصيل", "Make it personal"),
                 copy(
-                  "شارك صور المكان والإضاءة على واتساب لتحديد الأنواع والتوزيع والتكلفة.",
-                  "Share photos and lighting on WhatsApp to agree varieties, placement and cost.",
+                  "بعد إرسال الفورم، فريق جنان يتواصل معك لمناقشة المكان والإضاءة وتحديد الأنواع والتوزيع والتكلفة.",
+                  "After you submit the form, Genaan contacts you to discuss your space, lighting, varieties, placement and cost.",
                 ),
               ],
               [
@@ -318,6 +283,7 @@ export function CommercialExperience({
         onClick={(e) => {
           if (e.target === e.currentTarget) setSelected(null);
         }}
+        aria-labelledby="quote-dialog-title"
         className="m-auto max-h-[90svh] w-[calc(100%_-_2rem)] max-w-xl overflow-y-auto rounded-3xl bg-[#f4f5f1] p-6 text-[#0d3a24] shadow-2xl backdrop:bg-black/50 md:p-8"
       >
         {selected && (
@@ -327,7 +293,7 @@ export function CommercialExperience({
                 <p className="text-xs text-[#5f786c]">
                   {copy("طلب عرض سعر", "Quotation request")}
                 </p>
-                <h2 className="mt-1 text-2xl font-bold">
+                <h2 id="quote-dialog-title" className="mt-1 text-2xl font-bold">
                   {isRTL ? selected.name_ar : selected.name_en}
                 </h2>
               </div>
@@ -340,7 +306,7 @@ export function CommercialExperience({
                 ×
               </button>
             </div>
-            <QuoteRequestForm key={selected.id} selected={selected} settings={settings} available={available} initialBusinessType={filter !== "all" ? filter : undefined}/>
+            <QuoteRequestForm key={selected.id} selected={selected} settings={settings} available={available}/>
 
           </>
         )}

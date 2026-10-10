@@ -27,8 +27,8 @@ export default function PrivacyPage() {
         </p>
         <p>
           {c(
-            "فتح واتساب يجهز رسالة تحتوي على التفاصيل التي أدخلتها. لا يتم إرسالها تلقائيًا؛ أنت تختار إرسالها، وبعد الإرسال تكون المحادثة أيضًا لدى واتساب وحساب جنان المستقبِل.",
-            "Opening WhatsApp prepares a message with the details you entered. It is not sent automatically. If you send it, the conversation is also held by WhatsApp and the receiving Genaan account.",
+            "إرسال الفورم يحفظ الطلب في لوحة الإدارة، ثم يتواصل معك فريق جنان على رقم الهاتف المسجل. إذا استخدمت رابط واتساب للتواصل مباشرة، تكون المحادثة أيضًا لدى واتساب وحساب جنان المستقبِل.",
+            "Submitting the form saves your request in the dashboard. The Genaan team then contacts you on the phone number provided. If you use the WhatsApp link to contact us directly, the conversation is also held by WhatsApp and the receiving Genaan account.",
           )}
         </p>
         <p>

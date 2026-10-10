@@ -15,7 +15,7 @@ export default function ContactPage() {
   return <section dir={isRTL ? "rtl" : "ltr"} className="mx-auto max-w-[1100px] px-5 py-16">
     <p className="text-xs tracking-widest text-[#5f786c]">GENAAN / LET'S TALK</p>
     <h1 className="mt-4 text-4xl font-bold md:text-6xl">{c("كل مساحة لها حكاية.", "Every space has a story.")}</h1>
-    <p className="mt-5 max-w-2xl text-base leading-8 text-[#5f786c]">{c("احكي لنا عن مدينتك ونشاطك. المساحة اختيارية، وممكن تكتفي بعدد الغرف. نناقش النباتات والنخيل وتوزيعها وخطة العناية السنوية على واتساب.", "Tell us your city and business. Area is optional; room count works too. Discuss plants, palms, layout and annual care on WhatsApp.")}</p>
+    <p className="mt-5 max-w-2xl text-base leading-8 text-[#5f786c]">{c("احكي لنا عن مدينتك ونشاطك. المساحة اختيارية، وممكن تكتفي بعدد الغرف. املأ الفورم وفريق جنان هيتواصل معاك لمناقشة النباتات والنخيل وتوزيعها وخطة العناية السنوية.", "Tell us your city and business. Area is optional; room count works too. Complete the form and the Genaan team will contact you to discuss plants, palms, layout and annual care.")}</p>
     <div className="mt-10 grid items-start gap-8 md:grid-cols-2">
       <div className="space-y-5 rounded-3xl bg-[#0d3a24] p-8 text-white">
         <h2 className="text-2xl font-bold">{c("تواصل مع جنان", "Contact Genaan")}</h2>

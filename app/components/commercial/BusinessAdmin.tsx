@@ -53,7 +53,7 @@ export function BusinessAdmin({
   const c = (ar: string, en: string) => (isRTL ? ar : en);
   const [packages, setPackages] = useState<PlantPackage[]>([]),
     [enquiries, setEnquiries] = useState<Enquiry[]>([]),
-    [settings, setSettings] = useState({ whatsapp: "", email: "", phone: "", care_biannual_price: "1200", care_quarterly_price: "2200" });
+    [settings, setSettings] = useState({ instagram: "", whatsapp: "", email: "", phone: "", care_biannual_price: "1200", care_quarterly_price: "2200" });
   const [editing, setEditing] = useState<Partial<PlantPackage> | null>(null);
   const [loading, setLoading] = useState(true),
     [saving, setSaving] = useState(false),
@@ -327,8 +327,8 @@ export function BusinessAdmin({
             >
               <p className="text-sm leading-7 text-[#5f786c]">
                 {c(
-                  "رقم الواتساب يستقبل تفاصيل الباقة والنشاط والعميل. أدخل كود الدولة؛ الأرقام المصرية المحلية تتحول تلقائيًا إلى +20.",
-                  "This WhatsApp number receives package and customer details. Include the country code; Egyptian local numbers are converted to +20 automatically.",
+                  "طلبات عروض الأسعار تظهر في الداشبورد، ورقم الواتساب يظهر كأيقونة للتواصل في الموقع. أدخل كود الدولة؛ الأرقام المصرية المحلية تتحول تلقائيًا إلى +20.",
+                  "Quotation requests appear in the dashboard. This WhatsApp number is linked from the website’s contact icon. Include the country code; Egyptian local numbers are converted to +20 automatically.",
                 )}
               </p>
               {[
@@ -337,6 +337,7 @@ export function BusinessAdmin({
                   c("رقم واتساب الطلبات", "Orders WhatsApp number"),
                   "tel",
                 ],
+                ["instagram", c("رابط إنستجرام", "Instagram profile URL"), "url"],
                 ["email", c("البريد الإلكتروني", "Contact email"), "email"],
                 ["phone", c("رقم التواصل", "Contact phone"), "tel"],
                 ["care_biannual_price", c("سعر بداية العناية السنوية — زيارتان (جنيه)", "Annual starting care price — 2 visits (EGP)"), "number"],

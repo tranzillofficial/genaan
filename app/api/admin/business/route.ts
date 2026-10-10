@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 import { commercialAdmin } from "../../../lib/commercial-admin";
-import { BUSINESS_TYPES, normalizeWhatsApp } from "../../../lib/commercial";
+import { BUSINESS_TYPES, normalizeInstagram, normalizeWhatsApp } from "../../../lib/commercial";
 
 export async function GET(req: NextRequest) {
   const admin = await commercialAdmin(req);
@@ -38,6 +38,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     let error;
     if (body.kind === "settings") {
+      const instagram = String(body.instagram || "").trim();
+      if (instagram && !normalizeInstagram(instagram))
+        return NextResponse.json({ error: "Enter a valid Instagram profile URL." }, { status: 400 });
       const phone = String(body.whatsapp || "").trim();
       if (phone && !normalizeWhatsApp(phone))
         return NextResponse.json(
@@ -52,10 +55,10 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ error: "Enter valid annual care prices." }, { status: 400 });
       }
       ({ error } = await admin.client.from("genaan_business_settings").upsert(
-        ["whatsapp", "email", "phone", "care_biannual_price", "care_quarterly_price"].map((key) => ({
+        ["instagram", "whatsapp", "email", "phone", "care_biannual_price", "care_quarterly_price"].map((key) => ({
           key,
           value:
-            key === "whatsapp"
+            key === "instagram" ? normalizeInstagram(instagram) : key === "whatsapp"
               ? normalizeWhatsApp(phone)
               : key === "phone" && contactPhone ? "+" + normalizeWhatsApp(contactPhone) : String(body[key] ?? "")
                   .trim()

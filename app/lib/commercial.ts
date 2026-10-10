@@ -28,6 +28,7 @@ export type PlantPackage = {
   sort_order: number;
 };
 export type BusinessSettings = {
+  instagram: string;
   whatsapp: string;
   email: string;
   phone: string;
@@ -269,21 +270,21 @@ export const DEFAULT_PACKAGES: Omit<PlantPackage, "id">[] = [
 ];
 
 export const CURATED_PLANTS = [
-  { ar: "أجلونيما", en: "Aglaonema" },
-  { ar: "شيفليرا ارتفاع متر", en: "1 metre Schefflera" },
-  { ar: "كلاسيا", en: "Clusia" },
-  { ar: "ديفنباخيا", en: "Dieffenbachia" },
-  { ar: "زنبق السلام", en: "Peace lily" },
-  { ar: "فوجير", en: "Fern" },
-  { ar: "إمبريال", en: "Imperial" },
-  { ar: "ببروميا خضراء", en: "Green Peperomia" },
-  { ar: "سانسيفيريا (تعبان)", en: "Snake plant" },
-  { ar: "ألوكاسيا", en: "Alocasia" },
-  { ar: "سنجونيوم", en: "Syngonium" },
-  { ar: "بوتس إنجوي معلّق", en: "Hanging N'Joy Pothos" },
-  { ar: "نخيل أريكا", en: "Areca palm" },
-  { ar: "نخيل شمدوريا", en: "Chamaedorea palm" },
-  { ar: "نخيل رابس", en: "Rhapis palm" },
+  { ar: "أجلونيما", en: "Aglaonema", image: "https://images.unsplash.com/photo-1620803366004-119b57f54cd6?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/tSWTSzwSz6M", photographer: "feey" },
+  { ar: "شيفليرا ارتفاع متر", en: "1 metre Schefflera", image: "https://images.unsplash.com/photo-1747641567564-e318a88cf1b0?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/pCRvAi965oQ", photographer: "feey" },
+  { ar: "كلاسيا", en: "Clusia", image: "https://images.unsplash.com/photo-1682414270154-15ea28c62554?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/eYK6RSzBP_U", photographer: "feey" },
+  { ar: "ديفنباخيا", en: "Dieffenbachia", image: "https://images.unsplash.com/photo-1695952835952-f8975fbb28ec?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/TllsCWDJH64", photographer: "Vinicius Feiten" },
+  { ar: "زنبق السلام", en: "Peace lily", image: "https://images.unsplash.com/photo-1575805501150-e064fbd815dd?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/ouqmMLghHr0", photographer: "Max Williams" },
+  { ar: "فوجير", en: "Fern", image: "https://images.unsplash.com/photo-1520599829573-20c1b374c0a4?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/d7EsW-lRl34", photographer: "Joseph Pearson" },
+  { ar: "إمبريال", en: "Imperial", image: "https://images.unsplash.com/photo-1630393178216-7a0bd27bc990?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/chJ06Fcun44", photographer: "Millzero Nishan" },
+  { ar: "ببروميا خضراء", en: "Green Peperomia", image: "https://images.unsplash.com/photo-1631038093177-b709a7048b44?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/C_3LxWsmhlc", photographer: "Alda González-Cuevas" },
+  { ar: "سانسيفيريا (تعبان)", en: "Snake plant", image: "https://images.unsplash.com/photo-1567225557594-88d73e55f2cb?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/MBsReSZ2WNM", photographer: "Minh Pham" },
+  { ar: "ألوكاسيا", en: "Alocasia", image: "https://images.unsplash.com/photo-1757912157676-590e84bfd5ea?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/Hd9u6DkN7O0", photographer: "Mavis M." },
+  { ar: "سنجونيوم", en: "Syngonium", image: "https://images.unsplash.com/photo-1688370180849-a7c39f49edf1?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/FtqakTBSWFs", photographer: "feey" },
+  { ar: "بوتس إنجوي معلّق", en: "Hanging N'Joy Pothos", image: "https://images.unsplash.com/photo-1579834873725-bef2c4c3ed84?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/FYriaYy70ps", photographer: "Olena Shmahalo" },
+  { ar: "نخيل أريكا", en: "Areca palm", image: "https://images.unsplash.com/photo-1696339565183-8f17a4b029bb?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/LxWNvGz1Wo8", photographer: "Marion Mesbah" },
+  { ar: "نخيل شمدوريا", en: "Chamaedorea palm", image: "https://images.unsplash.com/photo-1745327656782-30099136da9c?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/o8CEg2uuzSM", photographer: "Natalie Kinnear" },
+  { ar: "نخيل رابس", en: "Rhapis palm", image: "https://images.unsplash.com/photo-1648806091298-463d085ad8b1?auto=format&fit=max&w=1200&q=80", source: "https://unsplash.com/photos/ts4XptfBs3Y", photographer: "feey" },
 ];
 export const CARE_PLANS = [
   { value: "none", ar: "بدون اشتراك عناية", en: "No care subscription", visits: 0 },
@@ -294,4 +295,13 @@ export function carePrice(settings: BusinessSettings, plan: string): number {
   if (plan === "none") return 0;
   const value = Number(plan === "quarterly" ? settings.care_quarterly_price : settings.care_biannual_price);
   return Number.isFinite(value) && value >= 0 ? value : 0;
+}
+
+export function normalizeInstagram(value: string): string {
+  if (!value.trim()) return "";
+  try {
+    const url = new URL(value.trim());
+    if (!["https:", "http:"].includes(url.protocol) || !["instagram.com", "www.instagram.com"].includes(url.hostname) || url.username || url.password || url.port || url.pathname === "/") return "";
+    return `https://www.instagram.com${url.pathname}`;
+  } catch { return ""; }
 }
