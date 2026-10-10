@@ -1,6 +1,6 @@
 # Plant gallery photography
 
-Each selectable variety has a distinct image from Unsplash, licensed under the [Unsplash License](https://unsplash.com/license). Gallery photos illustrate the species/variety rather than exact nursery stock or supplied pots. Source links and photographer credits are retained in this document for reference. Public gallery captions display only the plant name.
+The initial 17 gallery entries have distinct images from Unsplash, licensed under the [Unsplash License](https://unsplash.com/license). Gallery photos illustrate the species/variety rather than exact nursery stock or supplied pots. Source links and photographer credits are retained in this document for reference. Public gallery captions display only the plant name.
 
 - tSWTSzwSz6M: feey, https://unsplash.com/photos/tSWTSzwSz6M (photo-1620803366004-119b57f54cd6)
 - pCRvAi965oQ: feey, https://unsplash.com/photos/pCRvAi965oQ (photo-1747641567564-e318a88cf1b0)
@@ -20,3 +20,5 @@ Each selectable variety has a distinct image from Unsplash, licensed under the [
 
 - WarnrADBVDw: Federica Giusti, https://unsplash.com/photos/WarnrADBVDw (photo-1536008905557-cc918940960c)
 - BxP5Qm4byiI: Rajendra Biswal, https://unsplash.com/photos/BxP5Qm4byiI (photo-1589449104511-b2c8a9e1b7f6)
+
+The gallery is now managed through `/admin/plants`; administrator additions and replacements are stored in `genaan_plants`, not this seed list.

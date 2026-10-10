@@ -7,16 +7,18 @@ export async function POST(req: NextRequest) {
   try {
     const form = await req.formData();
     const file = form.get("file");
+    const isPlant = form.get("target") === "plants";
+    const maxSize = isPlant ? 4194304 : 5242880;
     if (
       !(file instanceof File) ||
       !["image/jpeg", "image/png", "image/webp", "image/avif"].includes(
         file.type,
       ) ||
-      file.size > 5242880 ||
+      file.size > maxSize ||
       file.size === 0
     )
       return NextResponse.json(
-        { error: "Use an image under 5 MB." },
+        { error: `Use an image under ${isPlant ? 4 : 5} MB.` },
         { status: 400 },
       );
     const ext: { [key: string]: string } = {
@@ -25,7 +27,8 @@ export async function POST(req: NextRequest) {
       "image/webp": "webp",
       "image/avif": "avif",
     };
-    const path = `packages/${crypto.randomUUID()}.${ext[file.type]}`;
+    const folder = isPlant ? "plants" : "packages";
+    const path = `${folder}/${crypto.randomUUID()}.${ext[file.type]}`;
     const { error } = await admin.client.storage
       .from("genaan-packages")
       .upload(path, file, {

@@ -6,16 +6,19 @@ import { QuoteRequestForm } from "./QuoteRequestForm";
 import { useI18n } from "../../lib/i18n-context";
 import {
   type PlantPackage,
+  type PlantVariety,
   type BusinessSettings,
 } from "../../lib/commercial";
 
 export function CommercialExperience({
   packages,
+  plants,
   settings,
   hero = false,
   available = true,
 }: {
   packages: PlantPackage[];
+  plants: PlantVariety[];
   settings: BusinessSettings;
   hero?: boolean;
   available?: boolean;
@@ -207,8 +210,8 @@ export function CommercialExperience({
         </section>
         <section className="pb-16">
           <h2 className="text-3xl font-bold">{copy("نباتات مختارة ونخيل بحضور مميز", "Considered plants and statement palms")}</h2>
-          <p className="my-4 max-w-3xl text-sm leading-7 text-[#5f786c]">{copy("١٢ نوع نباتات + ٥ أنواع نخيل. نركز على النباتات الأرضية وشجر الزينة مثل الشيفليرا ارتفاع متر، ونكملها بأنواع تناسب إضاءة المكان. الأحجام النهائية والتوافر يتأكدان قبل التنفيذ.", "12 plant varieties plus 5 palms. Floor plants and ornamental trees such as one-metre schefflera lead the layout, complemented by varieties suited to your light. Final sizes and availability are confirmed before fulfilment.")}</p>
-          <PlantGallery />
+          <p className="my-4 max-w-3xl text-sm leading-7 text-[#5f786c]">{plants.length > 0 && <span>{copy(`${plants.filter(p => p.category === "plant").length} نوع نباتات + ${plants.filter(p => p.category === "palm").length} أنواع نخيل. `, `${plants.filter(p => p.category === "plant").length} plant varieties + ${plants.filter(p => p.category === "palm").length} palms. `)}</span>}{copy("نختار النباتات الأرضية وشجر الزينة والنخيل حسب إضاءة المكان وتوزيعه. الأحجام النهائية والتوافر يتأكدان قبل التنفيذ.", "Floor plants, ornamental trees and palms are selected for your light and layout. Final sizes and availability are confirmed before fulfilment.")}</p>
+          <PlantGallery plants={plants} />
           <p className="mt-4 text-xs text-[#5f786c]">{copy("نحدد الموقع المناسب لكل نوع حسب الضوء والتهوية؛ زيارات العناية لا تغني عن الري والمتابعة المعتادة بين الزيارات.", "Placement is matched to light and airflow. Care visits do not replace routine watering and attention between visits.")}</p>
         </section>
         <section className="rounded-3xl bg-[#e8f3ec] p-8 md:p-12">

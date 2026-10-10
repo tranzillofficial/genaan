@@ -82,6 +82,13 @@ const NAV_ITEMS = [
     section: "Catalog",
   },
   {
+    href: "/admin/plants",
+    icon: Icons.products,
+    en: "Plants & photos",
+    ar: "النباتات والصور",
+    section: "Catalog",
+  },
+  {
     href: "/admin/business-orders",
     icon: Icons.orders,
     en: "Quote requests",
